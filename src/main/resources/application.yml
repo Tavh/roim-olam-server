@@ -1,0 +1,20 @@
+server:
+  port: 20000
+
+spring:
+  application:
+    name: roim-olam-server
+
+  jpa:
+    database: mysql
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties.hibernate.dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+
+  datasource:
+    platform: mysql
+    url: jdbc:mysql://localhost:3306/roim_olam?serverTimezone=UTC
+    username: root
+    password: Srduicukzh1
+    driverClassName: com.mysql.cj.jdbc.Driver
