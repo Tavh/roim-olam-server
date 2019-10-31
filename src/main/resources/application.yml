@@ -16,5 +16,5 @@ spring:
     platform: mysql
     url: jdbc:mysql://localhost:3306/roim_olam?serverTimezone=UTC
     username: root
-    password: Srduicukzh1
+    password: ${SQL_PASSWORD}
     driverClassName: com.mysql.cj.jdbc.Driver
