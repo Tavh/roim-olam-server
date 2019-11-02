@@ -1,5 +1,6 @@
 package com.roimolam.project.models
 
+import org.springframework.web.multipart.MultipartFile
 import javax.persistence.*
 
 @Entity
@@ -20,5 +21,5 @@ data class CatalogItemEntity(
         val amountInStock: Int,
 
         @Column (name="image", nullable = true)
-        val image: String
+        val image: MultipartFile
 )
