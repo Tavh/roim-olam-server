@@ -1,8 +1,6 @@
-package com.roimolam.project.models
+package com.roimolam.project.entities
 
-import org.springframework.web.multipart.MultipartFile
 import javax.persistence.*
-import kotlin.jvm.Transient
 
 @Entity
 @Table (name="catalog_items")

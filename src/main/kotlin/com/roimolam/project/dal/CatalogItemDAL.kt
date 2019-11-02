@@ -1,13 +1,11 @@
 package com.roimolam.project.dal
 
-import com.roimolam.project.models.CatalogItemEntity
+import com.roimolam.project.entities.CatalogItemEntity
 import org.springframework.stereotype.Repository
 import javax.persistence.EntityManager
 import javax.persistence.PersistenceContext
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
-import java.nio.file.Files
-import java.nio.file.Paths
 
 
 @Repository

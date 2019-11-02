@@ -1,7 +1,7 @@
 package com.roimolam.project.logic
 
 import com.roimolam.project.dal.CatalogItemDAL
-import com.roimolam.project.models.CatalogItemEntity
+import com.roimolam.project.entities.CatalogItemEntity
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 

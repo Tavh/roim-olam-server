@@ -2,7 +2,7 @@ package com.roimolam.project.controller
 
 import com.roimolam.project.dal.PhotoUploadingDAL
 import com.roimolam.project.logic.CatalogItemFacade
-import com.roimolam.project.models.CatalogItemEntity
+import com.roimolam.project.entities.CatalogItemEntity
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
