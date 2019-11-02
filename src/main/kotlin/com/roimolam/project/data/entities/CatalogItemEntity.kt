@@ -19,6 +19,9 @@ data class CatalogItemEntity(
         @Column (name="amount_in_Stock", nullable=false)
         val amountInStock: Int,
 
+        @Column (name="description", nullable=false)
+        val description: String,
+
         @Column (name="photo_name", nullable=false)
         val photoFileName: String
 )

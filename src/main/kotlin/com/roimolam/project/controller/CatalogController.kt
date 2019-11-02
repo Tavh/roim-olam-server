@@ -1,21 +1,20 @@
 package com.roimolam.project.controller
 
-import com.roimolam.project.dal.PhotoUploadingDAL
+import com.roimolam.project.dal.PhotoDAL
 import com.roimolam.project.data.CatalogItemIDWrapper
 import com.roimolam.project.data.PhotoFileNameWrapper
 import com.roimolam.project.logic.CatalogItemFacade
 import com.roimolam.project.data.entities.CatalogItemEntity
-import com.roimolam.project.exceptions.ApplicationException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
-import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
+import java.awt.image.BufferedImage
 
 @RestController
 @RequestMapping("/catalog")
 class CatalogController (@Autowired val catalogItemFacade: CatalogItemFacade,
-                         @Autowired val photoUploadingDAL: PhotoUploadingDAL) {
+                         @Autowired val photoUploadingDAL: PhotoDAL) {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/create-catalog-item")
@@ -34,8 +33,18 @@ class CatalogController (@Autowired val catalogItemFacade: CatalogItemFacade,
         return catalogItemFacade.getCatalogItem(id)
     }
 
+    @GetMapping("/get-catalog-item-photo")
+    fun getCatalogItemPhoto(@RequestParam photoFileName: String): ByteArray {
+        return catalogItemFacade.getCatalogItemPhoto(photoFileName)
+    }
+
     @GetMapping("/get-all-catalog-items")
     fun getAllCatalogItems(): List<CatalogItemEntity> {
         return catalogItemFacade.getAllCatalogItems()
+    }
+
+    @GetMapping("get-catalog-items-by-free-text")
+    fun getCatalogItemsByFreeText(@RequestParam freeText: String): List<CatalogItemEntity> {
+        return catalogItemFacade.getCatalogItemsByFreeText(freeText)
     }
 }

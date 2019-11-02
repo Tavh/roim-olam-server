@@ -10,10 +10,13 @@ import org.springframework.web.multipart.MultipartFile
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
+import javax.imageio.ImageIO
+import java.io.ByteArrayOutputStream
+
 
 @Repository
-class PhotoUploadingDAL (@Autowired val env: Environment,
-                         val catalogPhotoDirectory: String? = env.getProperty("CATALOG_PHOTO_DIRECTORY")) {
+class PhotoDAL (@Autowired val env: Environment,
+                val catalogPhotoDirectory: String? = env.getProperty("CATALOG_PHOTO_DIRECTORY")) {
 
 
     fun saveCatalogItemPhoto(photo: MultipartFile): PhotoFileNameWrapper {
@@ -30,7 +33,19 @@ class PhotoUploadingDAL (@Autowired val env: Environment,
         return PhotoFileNameWrapper(photo.originalFilename.toString())
     }
 
-    fun isPhotoFileNameExists(photoFileName: String?): Boolean{
+    private fun isPhotoFileNameExists(photoFileName: String?): Boolean{
         return File(catalogPhotoDirectory, photoFileName).exists()
+    }
+
+    fun getCatalogItemPhoto(photoFileName: String): ByteArray {
+        val path = catalogPhotoDirectory + photoFileName
+        val file = File(path)
+
+        val image = ImageIO.read(file)
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        ImageIO.write(image, "jpg", byteArrayOutputStream)
+        byteArrayOutputStream.flush()
+        byteArrayOutputStream.close()
+        return byteArrayOutputStream.toByteArray()
     }
 }
