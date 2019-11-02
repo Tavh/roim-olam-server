@@ -5,7 +5,9 @@ import javax.print.attribute.standard.Severity
 
 enum class ErrorType(val httpStatus: Int, val errorInfo: ErrorInfo) {
 
-    ITEM_ALREADY_EXISTS(406, ErrorInfo("A unique item cannot be re-inserted",
-                                                "BUSINESS-ERROR"))
+    ITEM_ALREADY_EXISTS(203, ErrorInfo("A unique item cannot be re-inserted",
+                                               "BUSINESS-ERROR")),
+    NO_DATA_FOUND(209, ErrorInfo("No data found",
+                                         "INFO"))
 }
 

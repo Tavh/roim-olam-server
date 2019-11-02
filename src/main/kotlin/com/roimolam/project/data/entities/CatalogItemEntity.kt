@@ -20,5 +20,5 @@ data class CatalogItemEntity(
         val amountInStock: Int,
 
         @Column (name="photo_name", nullable=false)
-        val photoName: String
+        val photoFileName: String
 )
