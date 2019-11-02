@@ -2,6 +2,7 @@ package com.roimolam.project.models
 
 import org.springframework.web.multipart.MultipartFile
 import javax.persistence.*
+import kotlin.jvm.Transient
 
 @Entity
 @Table (name="catalog_items")
@@ -20,6 +21,6 @@ data class CatalogItemEntity(
         @Column (name="amount_in_Stock", nullable=false)
         val amountInStock: Int,
 
-        @Column (name="image", nullable = true)
-        val image: MultipartFile
+        @Column (name="photo_name", nullable=false)
+        val photoName: String
 )
