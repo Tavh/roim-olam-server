@@ -1,5 +1,6 @@
 package com.roimolam.project.dal
 
+import com.roimolam.project.data.PhotoFileNameWrapper
 import com.roimolam.project.exceptions.ApplicationException
 import com.roimolam.project.exceptions.ErrorType
 import org.springframework.beans.factory.annotation.Autowired
@@ -15,18 +16,18 @@ class PhotoUploadingDAL (@Autowired val env: Environment,
                          val catalogPhotoDirectory: String? = env.getProperty("CATALOG_PHOTO_DIRECTORY")) {
 
 
-    fun saveCatalogItemPhoto(photo: MultipartFile): String {
+    fun saveCatalogItemPhoto(photo: MultipartFile): PhotoFileNameWrapper {
         val imageAsByteArray = photo.bytes
         val path = Paths.get(catalogPhotoDirectory + photo.originalFilename)
 
         if (isPhotoFileNameExists(photo.originalFilename)) {
             throw ApplicationException(ErrorType.ITEM_ALREADY_EXISTS, "The photo name you uploaded already " +
-                    "exists please choose a different one")
+                    "exists, please choose a different one")
         }
 
         Files.write(path, imageAsByteArray)
 
-        return photo.originalFilename.toString()
+        return PhotoFileNameWrapper(photo.originalFilename.toString())
     }
 
     fun isPhotoFileNameExists(photoFileName: String?): Boolean{

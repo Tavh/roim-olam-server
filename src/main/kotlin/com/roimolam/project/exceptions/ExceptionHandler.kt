@@ -1,5 +1,6 @@
 package com.roimolam.project.exceptions
 
+import com.roimolam.project.data.ErrorInfo
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseBody
@@ -9,10 +10,11 @@ import javax.servlet.http.HttpServletResponse
 class ExceptionHandler {
 
     @ExceptionHandler(ApplicationException::class)
-    @ResponseBody fun handleConflict(response: HttpServletResponse, e: ApplicationException): String? {
+    @ResponseBody fun handleConflict(response: HttpServletResponse, e: ApplicationException): ErrorInfo? {
         e.printStackTrace()
-        response.status = e.errorType.internalErrorCode
-        return e.message
+        response.status = e.errorType.httpStatus
+        e.errorType.errorInfo.message = e.message
+        return e.errorType.errorInfo
     }
 
     @ExceptionHandler(InternalError::class)

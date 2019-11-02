@@ -1,4 +1,4 @@
-package com.roimolam.project.entities
+package com.roimolam.project.data.entities
 
 import javax.persistence.*
 

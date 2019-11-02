@@ -11,6 +11,4 @@ class ApplicationException : Exception {
     constructor(errorType: ErrorType, message: String, e: Exception) : super(message, e) {
         this.errorType = errorType
     }
-
-
 }
