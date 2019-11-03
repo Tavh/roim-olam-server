@@ -4,6 +4,7 @@ import com.roimolam.project.dal.CatalogItemDAL
 import com.roimolam.project.dal.PhotoDAL
 import com.roimolam.project.data.CatalogItemIDWrapper
 import com.roimolam.project.data.entities.CatalogItemEntity
+import com.roimolam.project.data.entities.PhotoAsEncodedBase64StringWrapper
 import com.roimolam.project.exceptions.ApplicationException
 import com.roimolam.project.exceptions.ErrorType
 import org.springframework.beans.factory.annotation.Autowired
@@ -24,7 +25,7 @@ class CatalogItemFacadeImpl (@Autowired val catalogItemDAL: CatalogItemDAL,
         return catalogItemDAL.getCatalogItem(id)
     }
 
-    override fun getCatalogItemPhoto(photoFileName: String): ByteArray {
+    override fun getCatalogItemPhoto(photoFileName: String): PhotoAsEncodedBase64StringWrapper {
         return photoDAL.getCatalogItemPhoto(photoFileName)
     }
 

@@ -5,6 +5,7 @@ import com.roimolam.project.data.CatalogItemIDWrapper
 import com.roimolam.project.data.PhotoFileNameWrapper
 import com.roimolam.project.logic.CatalogItemFacade
 import com.roimolam.project.data.entities.CatalogItemEntity
+import com.roimolam.project.data.entities.PhotoAsEncodedBase64StringWrapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
@@ -34,7 +35,7 @@ class CatalogController (@Autowired val catalogItemFacade: CatalogItemFacade,
     }
 
     @GetMapping("/get-catalog-item-photo")
-    fun getCatalogItemPhoto(@RequestParam photoFileName: String): ByteArray {
+    fun getCatalogItemPhoto(@RequestParam photoFileName: String): PhotoAsEncodedBase64StringWrapper {
         return catalogItemFacade.getCatalogItemPhoto(photoFileName)
     }
 
