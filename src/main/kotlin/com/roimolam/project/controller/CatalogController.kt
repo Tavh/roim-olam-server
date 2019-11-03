@@ -1,5 +1,6 @@
 package com.roimolam.project.controller
 
+import com.roimolam.project.constants.CLIENT_EXPECTED_PREFIX
 import com.roimolam.project.dal.PhotoDAL
 import com.roimolam.project.data.CatalogItemIDWrapper
 import com.roimolam.project.data.PhotoFileNameWrapper
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import java.awt.image.BufferedImage
 
-@CrossOrigin("http://localhost:4200", maxAge = 3600, allowCredentials = "true")
+@CrossOrigin(CLIENT_EXPECTED_PREFIX, allowCredentials = "true")
 @RestController
 @RequestMapping("/catalog")
 class CatalogController (@Autowired val catalogItemFacade: CatalogItemFacade,
