@@ -1,7 +1,6 @@
 package com.roimolam.project.dal
 
 import com.roimolam.project.data.PhotoFileNameWrapper
-import com.roimolam.project.data.entities.PhotoAsEncodedBase64StringWrapper
 import com.roimolam.project.exceptions.ApplicationException
 import com.roimolam.project.exceptions.ErrorType
 import org.springframework.beans.factory.annotation.Autowired
@@ -39,15 +38,15 @@ class PhotoDAL (@Autowired val env: Environment,
         return File(catalogPhotoDirectory, photoFileName).exists()
     }
 
-    fun getCatalogItemPhoto(photoFileName: String): PhotoAsEncodedBase64StringWrapper {
+    fun getCatalogItemPhoto(photoFileName: String): String {
         val path = catalogPhotoDirectory + photoFileName
+        print(photoFileName)
         val file = File(path)
 
         val image = ImageIO.read(file)
         val byteArrayOutputStream = ByteArrayOutputStream()
         ImageIO.write(image, "jpg", byteArrayOutputStream)
 
-        return PhotoAsEncodedBase64StringWrapper(Base64.getEncoder()
-                                                       .encodeToString(byteArrayOutputStream.toByteArray()))
+        return Base64.getEncoder().encodeToString(byteArrayOutputStream.toByteArray())
     }
 }

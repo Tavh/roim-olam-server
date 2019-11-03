@@ -4,14 +4,10 @@ import com.roimolam.project.dal.CatalogItemDAL
 import com.roimolam.project.dal.PhotoDAL
 import com.roimolam.project.data.CatalogItemIDWrapper
 import com.roimolam.project.data.entities.CatalogItemEntity
-import com.roimolam.project.data.entities.PhotoAsEncodedBase64StringWrapper
 import com.roimolam.project.exceptions.ApplicationException
 import com.roimolam.project.exceptions.ErrorType
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
-import org.springframework.web.multipart.MultipartFile
-import java.awt.image.BufferedImage
-import javax.xml.catalog.Catalog
 
 @Controller
 class CatalogItemFacadeImpl (@Autowired val catalogItemDAL: CatalogItemDAL,
@@ -25,7 +21,7 @@ class CatalogItemFacadeImpl (@Autowired val catalogItemDAL: CatalogItemDAL,
         return catalogItemDAL.getCatalogItem(id)
     }
 
-    override fun getCatalogItemPhoto(photoFileName: String): PhotoAsEncodedBase64StringWrapper {
+    override fun getCatalogItemPhoto(photoFileName: String): String? {
         return photoDAL.getCatalogItemPhoto(photoFileName)
     }
 
@@ -34,6 +30,8 @@ class CatalogItemFacadeImpl (@Autowired val catalogItemDAL: CatalogItemDAL,
         if (allCatalogItems.isEmpty()) {
             throw ApplicationException(ErrorType.NO_DATA_FOUND, "Couldn't find any catalog items")
         }
+
+        allCatalogItems.forEach { c -> c.photoBase64String = getCatalogItemPhoto(c.photoFileName) }
 
         return allCatalogItems
     }

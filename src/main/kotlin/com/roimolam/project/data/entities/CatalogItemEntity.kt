@@ -23,5 +23,8 @@ data class CatalogItemEntity(
         val description: String,
 
         @Column (name="photo_name", nullable=false)
-        val photoFileName: String
+        val photoFileName: String,
+
+        @Transient
+        var photoBase64String: String?
 )

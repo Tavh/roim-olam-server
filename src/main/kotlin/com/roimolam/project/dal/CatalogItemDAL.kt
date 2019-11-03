@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional
 import com.roimolam.project.exceptions.ApplicationException
 import javax.xml.catalog.Catalog
 
-
 @Repository
 class CatalogItemDAL (@PersistenceContext val entityManager:EntityManager) {
 
