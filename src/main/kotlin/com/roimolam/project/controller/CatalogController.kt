@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import java.awt.image.BufferedImage
 
+@CrossOrigin("http://localhost:4200", maxAge = 3600, allowCredentials = "true")
 @RestController
 @RequestMapping("/catalog")
 class CatalogController (@Autowired val catalogItemFacade: CatalogItemFacade,
