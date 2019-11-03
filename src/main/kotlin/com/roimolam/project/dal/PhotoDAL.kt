@@ -40,7 +40,6 @@ class PhotoDAL (@Autowired val env: Environment,
 
     fun getCatalogItemPhoto(photoFileName: String): String {
         val path = catalogPhotoDirectory + photoFileName
-        print(photoFileName)
         val file = File(path)
 
         val image = ImageIO.read(file)
