@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
+import java.io.File
 
-@CrossOrigin(CLIENT_EXPECTED_PREFIX, allowCredentials = "true")
+@CrossOrigin(CLIENT_EXPECTED_PREFIX, allowCredentials = "true", methods = [ RequestMethod.POST,
+                                                                            RequestMethod.GET ])
 @RestController
 @RequestMapping("/catalog")
 class CatalogController (@Autowired val catalogItemFacade: CatalogItemFacade,
