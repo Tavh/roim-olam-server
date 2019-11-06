@@ -1,19 +1,22 @@
 package com.roimolam.project.controller
 
-import com.roimolam.project.constants.CLIENT_EXPECTED_PREFIX
 import com.roimolam.project.dal.PhotoDAL
 import com.roimolam.project.data.CatalogItemIDWrapper
-import com.roimolam.project.data.PhotoFileNameWrapper
+import com.roimolam.project.data.PhotoUploadStatusWrapper
 import com.roimolam.project.logic.CatalogItemFacade
 import com.roimolam.project.data.entities.CatalogItemEntity
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
-import java.io.File
 
-@CrossOrigin(CLIENT_EXPECTED_PREFIX, allowCredentials = "true", methods = [ RequestMethod.POST,
-                                                                            RequestMethod.GET ])
+@CrossOrigin("*", allowCredentials = "true", allowedHeaders = ["*"], methods = [ RequestMethod.POST,
+                                                                            RequestMethod.GET,
+                                                                            RequestMethod.HEAD,
+                                                                            RequestMethod.OPTIONS,
+                                                                            RequestMethod.PUT,
+                                                                            RequestMethod.PATCH ],
+        exposedHeaders = [ "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials" ])
 @RestController
 @RequestMapping("/catalog")
 class CatalogController (@Autowired val catalogItemFacade: CatalogItemFacade,
@@ -27,7 +30,7 @@ class CatalogController (@Autowired val catalogItemFacade: CatalogItemFacade,
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/save-catalog-item-photo")
-    fun saveCatalogItemPhoto(@ModelAttribute photo: MultipartFile): PhotoFileNameWrapper {
+    fun saveCatalogItemPhoto(@ModelAttribute photo: MultipartFile): PhotoUploadStatusWrapper {
         return photoUploadingDAL.saveCatalogItemPhoto(photo)
     }
 
