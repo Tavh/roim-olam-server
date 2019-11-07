@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile
                                                                             RequestMethod.OPTIONS,
                                                                             RequestMethod.PUT,
                                                                             RequestMethod.PATCH ],
-        exposedHeaders = [ "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials" ])
+        exposedHeaders = [ "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials", "errorMessage" ])
 @RestController
 @RequestMapping("/catalog")
 class CatalogController (@Autowired val catalogItemFacade: CatalogItemFacade,

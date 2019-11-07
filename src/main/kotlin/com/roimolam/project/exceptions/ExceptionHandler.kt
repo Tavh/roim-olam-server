@@ -13,6 +13,7 @@ class ExceptionHandler {
     @ResponseBody fun handleConflict(response: HttpServletResponse, e: ApplicationException): ErrorInfo? {
         e.printStackTrace()
         response.status = e.errorType.httpStatus
+        response.setHeader("errorMessage", e.message);
         e.errorType.errorInfo.message = e.message
         return e.errorType.errorInfo
     }
