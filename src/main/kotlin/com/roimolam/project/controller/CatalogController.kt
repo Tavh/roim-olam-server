@@ -10,12 +10,13 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 
-@CrossOrigin("*", allowCredentials = "true", allowedHeaders = ["*"], methods = [ RequestMethod.POST,
-                                                                            RequestMethod.GET,
-                                                                            RequestMethod.HEAD,
-                                                                            RequestMethod.OPTIONS,
-                                                                            RequestMethod.PUT,
-                                                                            RequestMethod.PATCH ],
+@CrossOrigin("*", allowCredentials = "true", allowedHeaders = ["*"],
+        methods = [ RequestMethod.POST,
+                    RequestMethod.GET,
+                    RequestMethod.HEAD,
+                    RequestMethod.OPTIONS,
+                    RequestMethod.PUT,
+                    RequestMethod.PATCH ],
         exposedHeaders = [ "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials", "errorMessage" ])
 @RestController
 @RequestMapping("/catalog")
