@@ -6,12 +6,23 @@ import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
 import javax.persistence.EntityManager
 import javax.persistence.PersistenceContext
+import com.roimolam.project.exceptions.ApplicationException
+
+
 
 @Repository
 class UsersDAL (
         @PersistenceContext(unitName="CouponSpringUnit")
         val entityManager: EntityManager
 ) {
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Throws(ApplicationException::class)
+    fun createUser(user: UserEntity): Long {
+        entityManager.persist(user)
+
+        return user.id
+    }
 
     @Transactional(propagation=Propagation.REQUIRED)
     fun getUser(email: String): UserEntity? {
