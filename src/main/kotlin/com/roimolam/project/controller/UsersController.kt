@@ -4,7 +4,7 @@ import com.roimolam.project.data.entities.UserEntity
 import javax.servlet.http.HttpServletResponse
 import javax.servlet.http.HttpServletRequest
 import com.roimolam.project.exceptions.ApplicationException
-import com.roimolam.project.logic.UserLoginDetailsFacade
+import com.roimolam.project.logic.UsersFacade
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import javax.servlet.http.Cookie
@@ -12,7 +12,7 @@ import javax.servlet.http.Cookie
 
 @RestController
 @RequestMapping("/users")
-class UsersController (@Autowired val userLoginDetailsFacade: UserLoginDetailsFacade) {
+class UsersController (@Autowired val usersFacade: UsersFacade) {
 
     @PostMapping("/login")
     @Throws(ApplicationException::class)
@@ -22,7 +22,7 @@ class UsersController (@Autowired val userLoginDetailsFacade: UserLoginDetailsFa
         val email = user.email
         val password = user.password
 
-        val isUserLegitimate = userLoginDetailsFacade.isUserLegitimate(email, password)
+        val isUserLegitimate = usersFacade.isUserLegitimate(email, password)
 
         if (isUserLegitimate) {
 
@@ -35,8 +35,6 @@ class UsersController (@Autowired val userLoginDetailsFacade: UserLoginDetailsFa
             response.setHeader("LoginStatus", "User : " + user.email + ", has logged in successfully")
         }
     }
-
-    // -------------------------------------Logout--------------------------------------
 
     @GetMapping("/logout")
     @Throws(Throwable::class)

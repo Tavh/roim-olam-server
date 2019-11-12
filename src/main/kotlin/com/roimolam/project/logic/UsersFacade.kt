@@ -1,6 +1,6 @@
 package com.roimolam.project.logic
 
-interface UserLoginDetailsFacade {
+interface UsersFacade {
 
     fun isUserLegitimate(email: String, password: String): Boolean
 }
