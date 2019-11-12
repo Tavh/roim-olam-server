@@ -3,16 +3,27 @@ package com.roimolam.project.controller
 import com.roimolam.project.data.entities.UserEntity
 import javax.servlet.http.HttpServletResponse
 import javax.servlet.http.HttpServletRequest
-import com.roimolam.project.exceptions.ApplicationException
 import com.roimolam.project.logic.UsersFacade
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import javax.servlet.http.Cookie
+import com.roimolam.project.exceptions.ApplicationException
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.PostMapping
+
+
 
 
 @RestController
 @RequestMapping("/users")
 class UsersController (@Autowired val usersFacade: UsersFacade) {
+
+    @PostMapping("/create-user")
+    @Throws(ApplicationException::class)
+    fun createUserLoginDetails(@RequestBody user: UserEntity) {
+
+        usersFacade.createUser(user)
+    }
 
     @PostMapping("/login")
     @Throws(ApplicationException::class)
@@ -64,5 +75,7 @@ class UsersController (@Autowired val usersFacade: UsersFacade) {
 
         response.setHeader("LogoutStatus", "User : $email has logged out successfully")
     }
+
+
 
 }
