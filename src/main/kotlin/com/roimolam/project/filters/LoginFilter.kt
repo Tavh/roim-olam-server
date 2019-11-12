@@ -5,8 +5,6 @@ import javax.servlet.http.HttpServletResponse
 import java.io.IOException
 import javax.servlet.*
 
-
-// ********** Not sure it's written correctly yet **********
 class LoginFilter : Filter {
 
     override fun destroy() {
@@ -14,8 +12,6 @@ class LoginFilter : Filter {
     }
 
     // ------------------------------ The method that actually filters-------------------------------------
-
-    // This method makes sure that only a logged-in user can access certain URLs
 
     @Throws(IOException::class, ServletException::class)
     override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain) {
@@ -57,8 +53,6 @@ class LoginFilter : Filter {
     }
 
     companion object {
-
-
         private const val RESOURCE_PATH = "/admin"
     }
 

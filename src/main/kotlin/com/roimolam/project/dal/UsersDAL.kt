@@ -11,10 +11,7 @@ import com.roimolam.project.exceptions.ApplicationException
 
 
 @Repository
-class UsersDAL (
-        @PersistenceContext(unitName="CouponSpringUnit")
-        val entityManager: EntityManager
-) {
+class UsersDAL (@PersistenceContext val entityManager:EntityManager) {
 
     @Transactional(propagation = Propagation.REQUIRED)
     @Throws(ApplicationException::class)

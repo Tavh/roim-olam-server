@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping
 
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/admin/users")
 class UsersController (@Autowired val usersFacade: UsersFacade) {
 
     @PostMapping("/create-user")
