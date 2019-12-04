@@ -11,9 +11,14 @@ import com.roimolam.project.exceptions.ApplicationException
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.PostMapping
 
-
-
-
+@CrossOrigin("*", allowCredentials = "true", allowedHeaders = ["*"],
+        methods = [ RequestMethod.POST,
+            RequestMethod.GET,
+            RequestMethod.HEAD,
+            RequestMethod.OPTIONS,
+            RequestMethod.PUT,
+            RequestMethod.PATCH ],
+        exposedHeaders = [ "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials", "errorMessage" ])
 @RestController
 @RequestMapping("/admin/users")
 class UsersController (@Autowired val usersFacade: UsersFacade) {
@@ -75,7 +80,4 @@ class UsersController (@Autowired val usersFacade: UsersFacade) {
 
         response.setHeader("LogoutStatus", "User : $email has logged out successfully")
     }
-
-
-
 }
