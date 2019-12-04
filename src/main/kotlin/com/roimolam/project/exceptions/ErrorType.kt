@@ -10,7 +10,7 @@ enum class ErrorType(val httpStatus: Int, val errorInfo: ErrorInfo) {
     NO_DATA_FOUND(209, ErrorInfo("No data found",
                                          "INFO")),
 
-    WORNG_INPUT(207, ErrorInfo("Wrong input received",
+    WRONG_INPUT(207, ErrorInfo("Wrong input received",
                                             "BUSINESS_ERROR"))
 }
 

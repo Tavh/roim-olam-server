@@ -26,14 +26,13 @@ class UsersController (@Autowired val usersFacade: UsersFacade) {
     @PostMapping("/create-user")
     @Throws(ApplicationException::class)
     fun createUserLoginDetails(@RequestBody user: UserEntity) {
-
         usersFacade.createUser(user)
     }
 
     @PostMapping("/login")
     @Throws(ApplicationException::class)
     fun login(request: HttpServletRequest,
-              response: HttpServletResponse, @RequestBody user: UserEntity) {
+              response: HttpServletResponse, @RequestBody user: UserEntity): UserEntity? {
 
         val email = user.email
         val password = user.password
@@ -50,6 +49,8 @@ class UsersController (@Autowired val usersFacade: UsersFacade) {
             response.status = 202
             response.setHeader("LoginStatus", "User : " + user.email + ", has logged in successfully")
         }
+
+        return usersFacade.getUser(email)
     }
 
     @GetMapping("/logout")

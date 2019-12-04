@@ -20,8 +20,6 @@ class InputValidationUtils {
 
             val emailPattern = Pattern.compile(EMAIL_REGEX, Pattern.CASE_INSENSITIVE)
 
-            System.out.println(emailPattern)
-
             val matcher = emailPattern.matcher(email)
 
             return matcher.find()
