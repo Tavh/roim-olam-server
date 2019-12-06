@@ -25,12 +25,7 @@ class LoginFilter : Filter {
 
         val path = request.pathInfo
 
-        if (!path.contains(RESOURCE_PATH)) {
-            chain.doFilter(request, response)
-            return
-        }
-
-        if (path.endsWith("login")) {
+        if (!path.contains(ADMIN_RESOURCE_NAME)) {
             chain.doFilter(request, response)
             return
         }
@@ -53,7 +48,7 @@ class LoginFilter : Filter {
     }
 
     companion object {
-        private const val RESOURCE_PATH = "/admin"
+        private const val ADMIN_RESOURCE_NAME = "/admin"
     }
 
 }

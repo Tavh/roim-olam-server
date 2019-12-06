@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping
             RequestMethod.PATCH ],
         exposedHeaders = [ "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials", "errorMessage" ])
 @RestController
-@RequestMapping("/admin/users")
+@RequestMapping("/users")
 class UsersController (@Autowired val usersFacade: UsersFacade) {
 
     @PostMapping("/create-user")
