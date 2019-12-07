@@ -11,6 +11,9 @@ enum class ErrorType(val httpStatus: Int, val errorInfo: ErrorInfo) {
                                          "INFO")),
 
     WRONG_INPUT(207, ErrorInfo("Wrong input received",
-                                            "BUSINESS_ERROR"))
+                                            "BUSINESS_ERROR")),
+
+    USER_NOT_PERMITTED( 403, ErrorInfo("User does not have sufficient permissions",
+                                                    "SECURITY"))
 }
 

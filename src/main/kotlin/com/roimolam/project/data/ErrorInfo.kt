@@ -1,7 +1,5 @@
 package com.roimolam.project.data
 
-import javax.print.attribute.standard.Severity
-
 data class ErrorInfo(val generalInfo: String,
                      val classification: String) {
 
