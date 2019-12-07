@@ -1,4 +1,4 @@
-package com.roimolam.project.aop
+package com.roimolam.project.aspects
 
 import com.roimolam.project.annotations.UserPermission
 import com.roimolam.project.enums.UserType
@@ -16,7 +16,7 @@ import org.springframework.web.context.request.ServletRequestAttributes
 
 @Aspect
 @Component
-class Aspect(@Autowired val usersFacade: UsersFacade) {
+class UserPermissionsAspect(@Autowired val usersFacade: UsersFacade) {
 
     @Around("@annotation(userPermissionAnnotation)")
     @Throws(Throwable::class)
