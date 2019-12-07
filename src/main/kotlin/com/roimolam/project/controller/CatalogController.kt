@@ -25,14 +25,14 @@ import org.springframework.web.multipart.MultipartFile
 class CatalogController (@Autowired val catalogItemFacade: CatalogItemFacade,
                          @Autowired val photoUploadingDAL: PhotoDAL) {
 
-    @UserPermission(UserType.ADMIN)
+    @UserPermission(userType = UserType.ADMIN)
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/create-catalog-item")
     fun createCatalogItem(@RequestBody catalogItemEntity: CatalogItemEntity): CatalogItemIDWrapper {
          return catalogItemFacade.createCatalogItem(catalogItemEntity)
     }
 
-    @UserPermission(UserType.ADMIN)
+    @UserPermission(userType = UserType.ADMIN)
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/save-catalog-item-photo")
     fun saveCatalogItemPhoto(@ModelAttribute photo: MultipartFile): PhotoUploadStatusWrapper {
