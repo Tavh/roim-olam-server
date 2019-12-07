@@ -3,7 +3,7 @@ package com.roimolam.project.aspects
 import com.roimolam.project.annotations.UserPermission
 import com.roimolam.project.enums.UserType
 import com.roimolam.project.exceptions.ApplicationException
-import com.roimolam.project.exceptions.ErrorType
+import com.roimolam.project.enums.ErrorType
 import com.roimolam.project.logic.UsersFacade
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around

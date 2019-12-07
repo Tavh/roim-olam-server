@@ -5,7 +5,7 @@ import com.roimolam.project.dal.PhotoDAL
 import com.roimolam.project.data.CatalogItemIDWrapper
 import com.roimolam.project.data.entities.CatalogItemEntity
 import com.roimolam.project.exceptions.ApplicationException
-import com.roimolam.project.exceptions.ErrorType
+import com.roimolam.project.enums.ErrorType
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 
@@ -37,7 +37,7 @@ class CatalogItemFacadeImpl (@Autowired val catalogItemDAL: CatalogItemDAL,
     }
 
     override fun getCatalogItemsByFreeText(freeText: String): List<CatalogItemEntity> {
-        var allCatalogItems = catalogItemDAL.getAllCatalogItems()
+        val allCatalogItems = catalogItemDAL.getAllCatalogItems()
 
         val filteredCatalogItems = allCatalogItems.filter { c -> c.title.contains(freeText, ignoreCase = true)
                                                                  || c.description.contains(freeText, ignoreCase = true) }

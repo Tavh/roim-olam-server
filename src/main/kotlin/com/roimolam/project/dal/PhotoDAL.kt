@@ -2,7 +2,7 @@ package com.roimolam.project.dal
 
 import com.roimolam.project.data.PhotoUploadStatusWrapper
 import com.roimolam.project.exceptions.ApplicationException
-import com.roimolam.project.exceptions.ErrorType
+import com.roimolam.project.enums.ErrorType
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.env.Environment
 import org.springframework.stereotype.Repository
@@ -19,7 +19,6 @@ import java.util.*
 class PhotoDAL (@Autowired val env: Environment,
                 val catalogPhotoDirectory: String? = env.getProperty("CATALOG_PHOTO_DIRECTORY")) {
 
-
     fun saveCatalogItemPhoto(photo: MultipartFile): PhotoUploadStatusWrapper {
         val imageAsByteArray = photo.bytes
         val path = Paths.get(catalogPhotoDirectory + photo.originalFilename)
@@ -35,7 +34,7 @@ class PhotoDAL (@Autowired val env: Environment,
     }
 
     private fun isPhotoFileNameExists(photoFileName: String?): Boolean{
-        return File(catalogPhotoDirectory, photoFileName).exists()
+        return File(catalogPhotoDirectory, photoFileName!!).exists()
     }
 
     fun getCatalogItemPhoto(photoFileName: String): String {

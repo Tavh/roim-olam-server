@@ -1,5 +1,7 @@
 package com.roimolam.project.exceptions
 
+import com.roimolam.project.enums.ErrorType
+
 class ApplicationException : Exception {
 
     var errorType: ErrorType

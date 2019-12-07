@@ -1,4 +1,4 @@
-package com.roimolam.project.exceptions
+package com.roimolam.project.enums
 
 import com.roimolam.project.data.ErrorInfo
 import javax.print.attribute.standard.Severity
