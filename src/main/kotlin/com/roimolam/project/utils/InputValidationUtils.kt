@@ -12,7 +12,6 @@ class InputValidationUtils {
         private const val DATE_REGEX = "^([0-2][0-9]|(3)[0-1])(\\/)(((0)[0-9])|((1)[0-2]))(\\/)\\d{4}$"
 
         fun isPasswordValid(password: String): Boolean {
-
             return password.matches(PASSWORD_REGEX.toRegex())
         }
 

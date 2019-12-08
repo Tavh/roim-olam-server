@@ -7,17 +7,20 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.env.Environment
 import org.springframework.stereotype.Repository
 import org.springframework.web.multipart.MultipartFile
+import java.awt.image.BufferedImage
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
 import javax.imageio.ImageIO
 import java.io.ByteArrayOutputStream
+import java.io.IOException
 import java.util.*
 
 
 @Repository
 class PhotoDAL (@Autowired val env: Environment,
-                val catalogPhotoDirectory: String? = env.getProperty("CATALOG_PHOTO_DIRECTORY")) {
+                val catalogPhotoDirectory: String? = env.getProperty("CATALOG_PHOTO_DIRECTORY"),
+                val defaultImagePath: String = catalogPhotoDirectory + "default.jpg") {
 
     fun saveCatalogItemPhoto(photo: MultipartFile): PhotoUploadStatusWrapper {
         val imageAsByteArray = photo.bytes
@@ -41,7 +44,14 @@ class PhotoDAL (@Autowired val env: Environment,
         val path = catalogPhotoDirectory + photoFileName
         val file = File(path)
 
-        val image = ImageIO.read(file)
+        var image: BufferedImage
+        try {
+            image = ImageIO.read(file)
+        } catch(e: IOException) {
+            val defaultImageFile = File(defaultImagePath)
+            image = ImageIO.read(defaultImageFile)
+        }
+
         val byteArrayOutputStream = ByteArrayOutputStream()
         ImageIO.write(image, "jpg", byteArrayOutputStream)
 

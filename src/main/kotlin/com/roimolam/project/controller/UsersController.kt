@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping
 @RequestMapping("/users")
 class UsersController (@Autowired val usersFacade: UsersFacade) {
 
+
     @PostMapping("/create-user")
     @Throws(ApplicationException::class)
     fun createUserLoginDetails(@RequestBody user: UserEntity) {
@@ -37,20 +38,22 @@ class UsersController (@Autowired val usersFacade: UsersFacade) {
         val email = user.email
         val password = user.password
 
+        val fetchedUser = usersFacade.getUser(email)
+
         val isUserLegitimate = usersFacade.isUserLegitimate(email, password)
 
         if (isUserLegitimate) {
 
             request.session
-            val cookie = Cookie("email", user.email)
-            cookie.setPath("/")
+            val cookie = Cookie(USER_EMAIL_COOKIE_NAME, user.email)
+            cookie.path = "/"
             response.addCookie(cookie)
 
             response.status = 202
             response.setHeader("LoginStatus", "User : " + user.email + ", has logged in successfully")
         }
 
-        return usersFacade.getUser(email)
+        return fetchedUser
     }
 
     @GetMapping("/logout")
@@ -61,24 +64,30 @@ class UsersController (@Autowired val usersFacade: UsersFacade) {
         var email = "No email detected"
 
         for (cookie in request.cookies) {
-            if (cookie.name.equals("email")) {
+            if (cookie.name == USER_EMAIL_COOKIE_NAME) {
                 email = cookie.value
                 val userCookie = Cookie("email", null)
-                userCookie.setValue(null)
-                userCookie.setPath(request.contextPath)
-                userCookie.setMaxAge(0)
+                userCookie.value = null
+                userCookie.path = request.contextPath
+                userCookie.maxAge = 0
                 response.addCookie(userCookie)
             }
         }
 
         request.session.invalidate()
 
-        val cookie = Cookie("JSESSIONID", null)
-        cookie.setValue(null)
-        cookie.setPath(request.contextPath)
-        cookie.setMaxAge(0)
+        val cookie = Cookie(SERVER_SESSION_COOKIE_NAME, null)
+        cookie.value = null
+        cookie.path = request.contextPath
+        cookie.maxAge = 0
         response.addCookie(cookie)
 
-        response.setHeader("LogoutStatus", "User : $email has logged out successfully")
+        response.setHeader(LOGIN_STATUS_HEADER_NAME, "User : $email has logged out successfully")
+    }
+
+    companion object {
+        private const val LOGIN_STATUS_HEADER_NAME = "login-status"
+        private const val SERVER_SESSION_COOKIE_NAME = "JSESSIONID"
+        private const val USER_EMAIL_COOKIE_NAME = "email"
     }
 }

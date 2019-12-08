@@ -22,7 +22,7 @@ class UsersFacadeImpl (@Autowired val usersDAL: UsersDAL) : UsersFacade {
             throw ApplicationException(ErrorType.WRONG_INPUT, "The email you inserted is invalid")
         }
 
-        if (!InputValidationUtils.isPasswordValid(user.password.toString())) {
+        if (!InputValidationUtils.isPasswordValid(user.password!!)) {
             throw ApplicationException(ErrorType.WRONG_INPUT, "The password you inserted is invalid")
         }
 
@@ -38,7 +38,7 @@ class UsersFacadeImpl (@Autowired val usersDAL: UsersDAL) : UsersFacade {
 
     override fun getUser(email: String): UserEntity? {
         val user = usersDAL.getUser(email)
-                ?: throw ApplicationException(ErrorType.NO_DATA_FOUND, "The user you requested could not be found")
+                ?: throw ApplicationException(ErrorType.NO_DATA_FOUND, "The user you requested ($email) could not be found")
         user.password = null
 
         return user

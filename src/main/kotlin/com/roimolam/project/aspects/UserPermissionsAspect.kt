@@ -23,8 +23,13 @@ class UserPermissionsAspect(@Autowired val usersFacade: UsersFacade) {
     fun userPermissionAdvice(joinPoint: ProceedingJoinPoint,
                             userPermissionAnnotation: UserPermission): Any? {
         if (userPermissionAnnotation.userType == UserType.ADMIN) {
-            val request = (RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes).request
-            val userEmail = request.getHeader("user-email")
+            val request =
+                    (RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes).request
+
+            val userEmail = request.getHeader(USER_EMAIL_HEADER_NAME)
+                    ?: throw ApplicationException(ErrorType.USER_NOT_PERMITTED, "Request does not contain" +
+                                        "$USER_EMAIL_HEADER_NAME header!")
+
             val user = usersFacade.getUser(userEmail)!!
 
             if (user.userType != UserType.ADMIN) {
@@ -33,5 +38,9 @@ class UserPermissionsAspect(@Autowired val usersFacade: UsersFacade) {
         }
 
         return joinPoint.proceed()
+    }
+
+    companion object {
+        private const val USER_EMAIL_HEADER_NAME = "user-email"
     }
 }
