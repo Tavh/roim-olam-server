@@ -29,7 +29,7 @@ class CatalogController (@Autowired val catalogItemFacade: CatalogItemFacade,
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/create-catalog-item")
     fun createCatalogItem(@RequestBody catalogItemEntity: CatalogItemEntity): CatalogItemIDWrapper {
-         return catalogItemFacade.createCatalogItem(catalogItemEntity)
+        return catalogItemFacade.createCatalogItem(catalogItemEntity)
     }
 
     @UserPermission(userType = UserType.ADMIN)

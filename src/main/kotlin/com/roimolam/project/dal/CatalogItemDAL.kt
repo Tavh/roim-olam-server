@@ -2,6 +2,7 @@ package com.roimolam.project.dal
 
 import com.roimolam.project.data.CatalogItemIDWrapper
 import com.roimolam.project.data.entities.CatalogItemEntity
+import com.roimolam.project.enums.ItemType
 import org.springframework.stereotype.Repository
 import javax.persistence.EntityManager
 import javax.persistence.PersistenceContext

@@ -1,5 +1,6 @@
 package com.roimolam.project.data.entities
 
+import com.roimolam.project.enums.ItemType
 import javax.persistence.*
 
 @Entity
@@ -24,6 +25,10 @@ data class CatalogItemEntity(
 
         @Column (name="photo_name", nullable=false)
         val photoFileName: String,
+
+        @Column(name="item_type", nullable=false)
+        @Enumerated(EnumType.STRING)
+        val itemType: ItemType,
 
         @Transient
         var photoBase64String: String?

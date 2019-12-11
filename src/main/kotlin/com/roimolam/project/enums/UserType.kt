@@ -1,7 +1,7 @@
 package com.roimolam.project.enums
 
-enum class UserType() {
+enum class UserType {
 
     REGULAR,
-    ADMIN()
+    ADMIN
 }
