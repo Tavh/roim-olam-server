@@ -30,8 +30,9 @@ class UsersFacadeImpl (@Autowired val usersDAL: UsersDAL) : UsersFacade {
             throw ApplicationException(ErrorType.ITEM_ALREADY_EXISTS, "The email you have entered already exists")
         }
 
-        val passwordHash: Int = user.password.hashCode()
-        user.password = passwordHash.toString()
+        user.apply {
+            password = password.hashCode().toString()
+        }
 
         return usersDAL.createUser(user)
     }

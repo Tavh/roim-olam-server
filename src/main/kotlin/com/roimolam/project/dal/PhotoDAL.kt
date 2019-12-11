@@ -45,11 +45,11 @@ class PhotoDAL (@Autowired val env: Environment,
         val file = File(path)
 
         var image: BufferedImage
-        try {
-            image = ImageIO.read(file)
+        image = try {
+            ImageIO.read(file)
         } catch(e: IOException) {
             val defaultImageFile = File(defaultImagePath)
-            image = ImageIO.read(defaultImageFile)
+            ImageIO.read(defaultImageFile)
         }
 
         val byteArrayOutputStream = ByteArrayOutputStream()

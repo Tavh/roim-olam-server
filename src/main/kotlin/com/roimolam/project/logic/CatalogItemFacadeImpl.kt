@@ -26,27 +26,32 @@ class CatalogItemFacadeImpl (@Autowired val catalogItemDAL: CatalogItemDAL,
     }
 
     override fun getAllCatalogItems(): List<CatalogItemEntity> {
-        val allCatalogItems = catalogItemDAL.getAllCatalogItems()
-        if (allCatalogItems.isEmpty()) {
-            throw ApplicationException(ErrorType.NO_DATA_FOUND, "Couldn't find any catalog items")
+        catalogItemDAL.getAllCatalogItems().apply {
+            if (isEmpty()) {
+                throw ApplicationException(ErrorType.NO_DATA_FOUND, "Couldn't find any catalog items")
+            }
+
+            forEach { c -> c.photoBase64String = getCatalogItemPhoto(c.photoFileName) }
+
+            return this
         }
 
-        allCatalogItems.forEach { c -> c.photoBase64String = getCatalogItemPhoto(c.photoFileName) }
-
-        return allCatalogItems
     }
 
     override fun getCatalogItemsByFreeText(freeText: String): List<CatalogItemEntity> {
-        val allCatalogItems = catalogItemDAL.getAllCatalogItems()
+        catalogItemDAL.getAllCatalogItems().apply {
+            val filteredCatalogItems = filter { c -> c.title.contains(freeText, ignoreCase = true)
+                    || c.description.contains(freeText, ignoreCase = true) }
 
-        val filteredCatalogItems = allCatalogItems.filter { c -> c.title.contains(freeText, ignoreCase = true)
-                                                                 || c.description.contains(freeText, ignoreCase = true) }
+            if (isEmpty()) {
+                throw ApplicationException(ErrorType.NO_DATA_FOUND,
+                        "Couldn't find any catalog items with the text $freeText")
+            }
 
-        if (allCatalogItems.isEmpty()) {
-            throw ApplicationException(ErrorType.NO_DATA_FOUND,
-                                       "Couldn't find any catalog items with the text $freeText")
+            return filteredCatalogItems
         }
 
-        return filteredCatalogItems
+
+
     }
 }
