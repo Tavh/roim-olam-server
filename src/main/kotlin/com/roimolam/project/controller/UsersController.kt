@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import javax.servlet.http.Cookie
 import com.roimolam.project.exceptions.ApplicationException
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.PostMapping
 
@@ -24,12 +25,14 @@ import org.springframework.web.bind.annotation.PostMapping
 class UsersController (@Autowired val usersFacade: UsersFacade) {
 
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/create-user")
     @Throws(ApplicationException::class)
     fun createUserLoginDetails(@RequestBody user: UserEntity) {
         usersFacade.createUser(user)
     }
 
+    @ResponseStatus(HttpStatus.ACCEPTED)
     @PostMapping("/login")
     @Throws(ApplicationException::class)
     fun login(request: HttpServletRequest,
@@ -37,8 +40,6 @@ class UsersController (@Autowired val usersFacade: UsersFacade) {
 
         val email = user.email
         val password = user.password
-
-        val fetchedUser = usersFacade.getUser(email)
 
         val isUserLegitimate = usersFacade.isUserLegitimate(email, password)
 
@@ -49,11 +50,10 @@ class UsersController (@Autowired val usersFacade: UsersFacade) {
             cookie.path = "/"
             response.addCookie(cookie)
 
-            response.status = 202
             response.setHeader("LoginStatus", "User : " + user.email + ", has logged in successfully")
         }
 
-        return fetchedUser
+        return usersFacade.getUser(email)
     }
 
     @GetMapping("/logout")
