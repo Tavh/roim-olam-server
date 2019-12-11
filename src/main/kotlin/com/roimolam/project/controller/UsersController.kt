@@ -40,53 +40,43 @@ class UsersController (@Autowired val usersFacade: UsersFacade) {
 
         val email = user.email
         val password = user.password
-
         val isUserLegitimate = usersFacade.isUserLegitimate(email, password)
 
         if (isUserLegitimate) {
-
             request.session
-            val cookie = Cookie(USER_EMAIL_COOKIE_NAME, user.email)
-            cookie.path = "/"
-            response.addCookie(cookie)
+            Cookie(USER_EMAIL_COOKIE_NAME, user.email).apply {
+                path = "/"
+                response.addCookie(this)
+            }
 
-            response.setHeader("LoginStatus", "User : " + user.email + ", has logged in successfully")
         }
 
         return usersFacade.getUser(email)
     }
 
     @GetMapping("/logout")
-    @Throws(Throwable::class)
     fun logout(request: HttpServletRequest,
                response: HttpServletResponse) {
 
-        var email = "No email detected"
-
-        for (cookie in request.cookies) {
-            if (cookie.name == USER_EMAIL_COOKIE_NAME) {
-                email = cookie.value
-                val userCookie = Cookie("email", null)
-                userCookie.value = null
-                userCookie.path = request.contextPath
-                userCookie.maxAge = 0
-                response.addCookie(userCookie)
+        request.cookies.forEach {
+            if (it.name == USER_EMAIL_COOKIE_NAME) {
+                Cookie(USER_EMAIL_COOKIE_NAME, null).apply {
+                    value = null
+                    path = request.contextPath
+                    maxAge = 0
+                    response.addCookie(this)
+                }
             }
         }
 
-        request.session.invalidate()
-
         val cookie = Cookie(SERVER_SESSION_COOKIE_NAME, null)
-        cookie.value = null
         cookie.path = request.contextPath
         cookie.maxAge = 0
         response.addCookie(cookie)
-
-        response.setHeader(LOGIN_STATUS_HEADER_NAME, "User : $email has logged out successfully")
+        request.session.invalidate()
     }
 
     companion object {
-        private const val LOGIN_STATUS_HEADER_NAME = "login-status"
         private const val SERVER_SESSION_COOKIE_NAME = "JSESSIONID"
         private const val USER_EMAIL_COOKIE_NAME = "email"
     }

@@ -27,13 +27,13 @@ class UserPermissionsAspect(@Autowired val usersFacade: UsersFacade) {
                     (RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes).request
 
             val userEmail = request.getHeader(USER_EMAIL_HEADER_NAME)
-                    ?: throw ApplicationException(ErrorType.USER_NOT_PERMITTED, "Request does not contain" +
-                                        "$USER_EMAIL_HEADER_NAME header!")
+                    ?: throw ApplicationException(ErrorType.USER_NOT_PERMITTED,
+                                                  "Request does not contain $USER_EMAIL_HEADER_NAME header!")
 
-            val user = usersFacade.getUser(userEmail)!!
-
-            if (user.userType != UserType.ADMIN) {
-                throw ApplicationException(ErrorType.USER_NOT_PERMITTED, "$userEmail is not an admin!")
+            usersFacade.getUser(userEmail)!!.apply {
+                if (userType != UserType.ADMIN) {
+                    throw ApplicationException(ErrorType.USER_NOT_PERMITTED, "$userEmail is not an admin!")
+                }
             }
         }
 
