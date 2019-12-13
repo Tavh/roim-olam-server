@@ -9,8 +9,6 @@ interface CatalogItemLogicFacade {
 
     fun getCatalogItem(id: Long): CatalogItemEntity?
 
-    fun getCatalogItemPhoto(photoFileName: String): String?
-
     fun getAllCatalogItems(): List<CatalogItemEntity>
 
     fun getCatalogItemsByType(itemType: ItemType): List<CatalogItemEntity>

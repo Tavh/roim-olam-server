@@ -1,6 +1,7 @@
 package com.roimolam.project.dal
 
 import com.roimolam.project.data.entities.UserEntity
+import com.roimolam.project.enums.ErrorType
 import com.roimolam.project.enums.UserType
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Propagation
@@ -24,14 +25,14 @@ class UsersDAL (@PersistenceContext val entityManager:EntityManager) {
     @Transactional(propagation=Propagation.REQUIRED)
     fun getUser(email: String): UserEntity? {
 
-        val query = entityManager.createQuery("FROM UserEntity user WHERE user.email=:email").setParameter("email", email)
+        val query = entityManager.createQuery("FROM UserEntity user WHERE user.email=:email")
+                                         .setParameter("email", email)
 
-        val results = query.resultList
-
-        return if (results.isEmpty()) {
-            null
-        } else {
-            query.singleResult as UserEntity
+        if (query.resultList.isEmpty()) {
+            throw ApplicationException(ErrorType.NO_DATA_FOUND,
+                    "The user you requested ($email) could not be found")
         }
+
+        return query.singleResult as UserEntity
     }
 }

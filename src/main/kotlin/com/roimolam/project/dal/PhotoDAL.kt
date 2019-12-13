@@ -27,8 +27,8 @@ class PhotoDAL (@Autowired val env: Environment,
         val path = Paths.get(catalogPhotoDirectory + photo.originalFilename)
 
         if (isPhotoFileNameExists(photo.originalFilename)) {
-            throw ApplicationException(ErrorType.ITEM_ALREADY_EXISTS, "A photo with " +
-                    "the name '${photo.originalFilename}' already exists")
+            throw ApplicationException(ErrorType.ITEM_ALREADY_EXISTS,
+                                       "A photo with the name '${photo.originalFilename}' already exists")
         }
 
         Files.write(path, imageAsByteArray)
