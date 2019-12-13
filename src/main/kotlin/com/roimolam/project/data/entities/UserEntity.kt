@@ -22,5 +22,5 @@ data class UserEntity (
 
     @Column(name="user_type", nullable=false)
     @Enumerated(EnumType.STRING)
-    val userType: UserType
+    val userType: UserType?
 )
