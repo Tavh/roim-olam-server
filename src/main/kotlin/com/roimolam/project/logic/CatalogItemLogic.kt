@@ -6,12 +6,13 @@ import com.roimolam.project.data.CatalogItemIDWrapper
 import com.roimolam.project.data.entities.CatalogItemEntity
 import com.roimolam.project.exceptions.ApplicationException
 import com.roimolam.project.enums.ErrorType
+import com.roimolam.project.enums.ItemType
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 
 @Controller
-class CatalogItemFacadeImpl (@Autowired val catalogItemDAL: CatalogItemDAL,
-                             @Autowired val photoDAL: PhotoDAL) : CatalogItemFacade {
+class CatalogItemLogic (@Autowired val catalogItemDAL: CatalogItemDAL,
+                        @Autowired val photoDAL: PhotoDAL) : CatalogItemLogicFacade {
 
     override fun createCatalogItem(catalogItemEntity: CatalogItemEntity): CatalogItemIDWrapper {
        return catalogItemDAL.createCatalogItem(catalogItemEntity)
@@ -38,6 +39,10 @@ class CatalogItemFacadeImpl (@Autowired val catalogItemDAL: CatalogItemDAL,
 
     }
 
+    override fun getCatalogItemsByType(itemType: ItemType): List<CatalogItemEntity> {
+        return catalogItemDAL.getCatalogItemsByType(itemType)
+    }
+
     override fun getCatalogItemsByFreeText(freeText: String): List<CatalogItemEntity> {
         catalogItemDAL.getAllCatalogItems().apply {
             val filteredCatalogItems = filter { c -> c.title.contains(freeText, ignoreCase = true)
@@ -50,8 +55,5 @@ class CatalogItemFacadeImpl (@Autowired val catalogItemDAL: CatalogItemDAL,
 
             return filteredCatalogItems
         }
-
-
-
     }
 }

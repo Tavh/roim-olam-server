@@ -4,8 +4,9 @@ import com.roimolam.project.annotations.UserPermission
 import com.roimolam.project.dal.PhotoDAL
 import com.roimolam.project.data.CatalogItemIDWrapper
 import com.roimolam.project.data.PhotoUploadStatusWrapper
-import com.roimolam.project.logic.CatalogItemFacade
+import com.roimolam.project.logic.CatalogItemLogicFacade
 import com.roimolam.project.data.entities.CatalogItemEntity
+import com.roimolam.project.enums.ItemType
 import com.roimolam.project.enums.UserType
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -22,7 +23,7 @@ import org.springframework.web.multipart.MultipartFile
         exposedHeaders = [ "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials", "errorMessage" ])
 @RestController
 @RequestMapping("/catalog")
-class CatalogController (@Autowired val catalogItemFacade: CatalogItemFacade,
+class CatalogController (@Autowired val catalogItemFacade: CatalogItemLogicFacade,
                          @Autowired val photoUploadingDAL: PhotoDAL) {
 
     @UserPermission(userType = UserType.ADMIN)
@@ -47,6 +48,11 @@ class CatalogController (@Autowired val catalogItemFacade: CatalogItemFacade,
     @GetMapping("/get-all-catalog-items")
     fun getAllCatalogItems(): List<CatalogItemEntity> {
         return catalogItemFacade.getAllCatalogItems()
+    }
+
+    @GetMapping("/get-catalog-items-by-type")
+    fun getCatalogItemsByType(@RequestParam itemType: ItemType): List<CatalogItemEntity> {
+        return catalogItemFacade.getCatalogItemsByType(itemType)
     }
 
     @GetMapping("get-catalog-items-by-free-text")

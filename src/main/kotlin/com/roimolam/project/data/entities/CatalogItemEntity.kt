@@ -1,5 +1,6 @@
 package com.roimolam.project.data.entities
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.roimolam.project.enums.ItemType
 import javax.persistence.*
 
@@ -31,5 +32,6 @@ data class CatalogItemEntity(
         val itemType: ItemType,
 
         @Transient
+        @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
         var photoBase64String: String?
 )

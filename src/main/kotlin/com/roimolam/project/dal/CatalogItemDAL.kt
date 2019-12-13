@@ -9,6 +9,7 @@ import javax.persistence.PersistenceContext
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
 import com.roimolam.project.exceptions.ApplicationException
+import org.hibernate.engine.query.spi.HQLQueryPlan
 import javax.xml.catalog.Catalog
 
 @Repository
@@ -31,6 +32,15 @@ class CatalogItemDAL (@PersistenceContext val entityManager:EntityManager) {
     @Throws(ApplicationException::class)
     fun getAllCatalogItems(): List<CatalogItemEntity> {
         val query = entityManager.createQuery("FROM CatalogItemEntity")
+
+        return query.resultList as List<CatalogItemEntity>
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Throws(ApplicationException::class)
+    fun getCatalogItemsByType(itemType: ItemType): List<CatalogItemEntity> {
+        val query = entityManager.createQuery("FROM CatalogItemEntity c WHERE c.itemType=:itemType")
+                                 .setParameter("itemType", itemType)
 
         return query.resultList as List<CatalogItemEntity>
     }

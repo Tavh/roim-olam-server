@@ -3,7 +3,7 @@ package com.roimolam.project.controller
 import com.roimolam.project.data.entities.UserEntity
 import javax.servlet.http.HttpServletResponse
 import javax.servlet.http.HttpServletRequest
-import com.roimolam.project.logic.UsersFacade
+import com.roimolam.project.logic.UsersLogicFacade
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import javax.servlet.http.Cookie
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping
         exposedHeaders = [ "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials", "errorMessage" ])
 @RestController
 @RequestMapping("/users")
-class UsersController (@Autowired val usersFacade: UsersFacade) {
+class UsersController (@Autowired val usersFacade: UsersLogicFacade) {
 
 
     @ResponseStatus(HttpStatus.CREATED)

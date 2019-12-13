@@ -4,7 +4,7 @@ import com.roimolam.project.annotations.UserPermission
 import com.roimolam.project.enums.UserType
 import com.roimolam.project.exceptions.ApplicationException
 import com.roimolam.project.enums.ErrorType
-import com.roimolam.project.logic.UsersFacade
+import com.roimolam.project.logic.UsersLogicFacade
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
@@ -16,7 +16,7 @@ import org.springframework.web.context.request.ServletRequestAttributes
 
 @Aspect
 @Component
-class UserPermissionsAspect(@Autowired val usersFacade: UsersFacade) {
+class UserPermissionsAspect(@Autowired val usersFacade: UsersLogicFacade) {
 
     @Around("@annotation(userPermissionAnnotation)")
     @Throws(Throwable::class)

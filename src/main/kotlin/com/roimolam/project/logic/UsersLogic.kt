@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 
 @Controller
-class UsersFacadeImpl (@Autowired val usersDAL: UsersDAL) : UsersFacade {
+class UsersLogic (@Autowired val usersDAL: UsersDAL) : UsersLogicFacade {
 
     override fun createUser(user: UserEntity): Long {
         user.apply {
