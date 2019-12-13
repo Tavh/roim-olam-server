@@ -32,6 +32,5 @@ data class CatalogItemEntity(
         val itemType: ItemType,
 
         @Transient
-        @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
         var photoBase64String: String?
 )
