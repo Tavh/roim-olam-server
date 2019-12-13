@@ -40,7 +40,9 @@ class CatalogItemLogic (@Autowired val catalogItemDAL: CatalogItemDAL,
     }
 
     override fun getCatalogItemsByType(itemType: ItemType): List<CatalogItemEntity> {
-        return catalogItemDAL.getCatalogItemsByType(itemType)
+        return catalogItemDAL.getCatalogItemsByType(itemType).apply {
+            forEach { c -> c.photoBase64String = getCatalogItemPhoto(c.photoFileName) }
+        }
     }
 
     override fun getCatalogItemsByFreeText(freeText: String): List<CatalogItemEntity> {
