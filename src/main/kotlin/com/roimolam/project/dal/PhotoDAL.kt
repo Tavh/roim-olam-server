@@ -1,5 +1,7 @@
 package com.roimolam.project.dal
 
+import com.roimolam.project.constants.CATALOG_PHOTO_DIRECTORY
+import com.roimolam.project.constants.DEFAULT_CATALOG_PHOTO_NAME
 import com.roimolam.project.data.PhotoUploadStatusWrapper
 import com.roimolam.project.exceptions.ApplicationException
 import com.roimolam.project.enums.ErrorType
@@ -19,8 +21,8 @@ import java.util.*
 
 @Repository
 class PhotoDAL (@Autowired val env: Environment,
-                val catalogPhotoDirectory: String? = env.getProperty("CATALOG_PHOTO_DIRECTORY"),
-                val defaultImagePath: String = catalogPhotoDirectory + "default.jpg") {
+                val catalogPhotoDirectory: String? = env.getProperty(CATALOG_PHOTO_DIRECTORY),
+                val defaultImagePath: String = catalogPhotoDirectory + DEFAULT_CATALOG_PHOTO_NAME) {
 
     fun saveCatalogItemPhoto(photo: MultipartFile): PhotoUploadStatusWrapper {
         val imageAsByteArray = photo.bytes
