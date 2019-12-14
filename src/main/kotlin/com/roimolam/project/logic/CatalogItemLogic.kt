@@ -1,7 +1,6 @@
 package com.roimolam.project.logic
 
 import com.roimolam.project.dal.CatalogItemDAL
-import com.roimolam.project.dal.PhotoDAL
 import com.roimolam.project.data.CatalogItemIDWrapper
 import com.roimolam.project.data.entities.CatalogItemEntity
 import com.roimolam.project.exceptions.ApplicationException
