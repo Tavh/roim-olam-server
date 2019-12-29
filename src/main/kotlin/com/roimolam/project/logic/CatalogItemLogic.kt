@@ -1,5 +1,6 @@
 package com.roimolam.project.logic
 
+import com.roimolam.project.constants.*
 import com.roimolam.project.dal.CatalogItemDAL
 import com.roimolam.project.data.CatalogItemIDWrapper
 import com.roimolam.project.data.entities.CatalogItemEntity
@@ -13,7 +14,11 @@ import org.springframework.stereotype.Controller
 class CatalogItemLogic (@Autowired val catalogItemDAL: CatalogItemDAL) : CatalogItemLogicFacade {
 
     override fun createCatalogItem(catalogItemEntity: CatalogItemEntity): CatalogItemIDWrapper {
-       return catalogItemDAL.createCatalogItem(catalogItemEntity)
+        if (catalogItemEntity.description.length > MAX_CATALOG_ITEM_DESC_LENGTH) {
+            throw ApplicationException(ErrorType.WRONG_INPUT, "Item description must consist of up to " +
+                                                                "$MAX_CATALOG_ITEM_DESC_LENGTH characters")
+        }
+        return catalogItemDAL.createCatalogItem(catalogItemEntity)
     }
 
     override fun getCatalogItem(id: Long): CatalogItemEntity? {
