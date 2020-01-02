@@ -63,4 +63,21 @@ class CatalogItemDAL (@PersistenceContext val entityManager:EntityManager,
             forEach { c -> c.photoBase64String = photoDAL.getCatalogItemPhoto(c.photoFileName) }
         }
     }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Throws(ApplicationException::class)
+    fun getCatalogItemsByBrand(itemType: ItemType, brand: String): List<CatalogItemEntity> {
+        val query = entityManager.createQuery("FROM CatalogItemEntity c WHERE c.itemType=:itemType " +
+                "                                                                   AND c.brand=:brand")
+                                                                                    .setParameter("itemType", itemType)
+                                                                                    .setParameter("brand", brand)
+
+        return (query.resultList as List<CatalogItemEntity>).apply {
+            if (isEmpty()) {
+                throw ApplicationException(ErrorType.NO_DATA_FOUND, "Couldn't find any $itemType with brand $brand")
+            }
+
+            forEach { c -> c.photoBase64String = photoDAL.getCatalogItemPhoto(c.photoFileName) }
+        }
+    }
 }

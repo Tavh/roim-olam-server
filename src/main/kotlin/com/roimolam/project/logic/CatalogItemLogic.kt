@@ -46,4 +46,8 @@ class CatalogItemLogic (@Autowired val catalogItemDAL: CatalogItemDAL) : Catalog
             return filteredCatalogItems
         }
     }
+
+    override fun getCatalogItemsByBrand(itemType: ItemType, brand: String): List<CatalogItemEntity> {
+        return catalogItemDAL.getCatalogItemsByBrand(itemType, brand)
+    }
 }

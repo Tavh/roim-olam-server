@@ -55,6 +55,12 @@ class CatalogController (@Autowired val catalogItemFacade: CatalogItemLogicFacad
         return catalogItemFacade.getCatalogItemsByType(itemType)
     }
 
+    @GetMapping("/get-catalog-items-by-brand-and-type")
+    fun getCatalogItemsByBrand(@RequestParam itemType: ItemType,
+                               @RequestParam brand: String): List<CatalogItemEntity> {
+        return catalogItemFacade.getCatalogItemsByBrand(itemType, brand)
+    }
+
     @GetMapping("get-catalog-items-by-free-text")
     fun getCatalogItemsByFreeText(@RequestParam freeText: String): List<CatalogItemEntity> {
         return catalogItemFacade.getCatalogItemsByFreeText(freeText)
