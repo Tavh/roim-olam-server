@@ -9,6 +9,6 @@ interface WebsiteStaticContentLogicFacade {
                                   websitePagePart: WebsitePagePart,
                                   websitePageText: TextWrapper): TextWrapper
 
-    fun readWebsiteComponentPart(websitePage: WebsitePage,
-                                 websitePagePart: WebsitePagePart): TextWrapper
+    fun readWebsiteComponentPart(websiteComponent: WebsitePage,
+                                 websiteComponentPart: WebsitePagePart): TextWrapper
 }
