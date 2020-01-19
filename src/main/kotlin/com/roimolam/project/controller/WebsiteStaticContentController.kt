@@ -2,9 +2,7 @@ package com.roimolam.project.controller
 
 import com.roimolam.project.annotations.UserPermission
 import com.roimolam.project.data.TextWrapper
-import com.roimolam.project.enums.UserType
-import com.roimolam.project.enums.WebsitePagePart
-import com.roimolam.project.enums.WebsitePage
+import com.roimolam.project.enums.*
 import com.roimolam.project.logic.WebsiteStaticContentLogicFacade
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
@@ -23,8 +21,8 @@ class WebsiteStaticContentController (@Autowired private val websiteStaticConten
 
     @UserPermission(userType = UserType.ADMIN)
     @PutMapping("/write/{websitePage}/{websitePagePart}")
-    fun writeWebsiteComponentPart(@PathVariable websitePage: WebsitePage,
-                             @PathVariable websitePagePart: WebsitePagePart,
+    fun writeWebsiteComponentPart(@PathVariable websitePage: WebsiteComponent,
+                             @PathVariable websitePagePart: WebsiteComponentPart,
                              @RequestBody websitePageText: TextWrapper): TextWrapper {
         return websiteStaticContentLogic.writeWebsiteComponentPart(websitePage,
                                                                    websitePagePart,
@@ -32,8 +30,8 @@ class WebsiteStaticContentController (@Autowired private val websiteStaticConten
     }
 
     @GetMapping("/read/{websitePage}/{websitePagePart}")
-    fun readWebsiteComponentPart(@PathVariable websitePage: WebsitePage,
-                                 @PathVariable websitePagePart: WebsitePagePart): TextWrapper {
+    fun readWebsiteComponentPart(@PathVariable websitePage: WebsiteComponent,
+                                 @PathVariable websitePagePart: WebsiteComponentPart): TextWrapper {
         return websiteStaticContentLogic.readWebsiteComponentPart(websitePage, websitePagePart)
     }
 }
