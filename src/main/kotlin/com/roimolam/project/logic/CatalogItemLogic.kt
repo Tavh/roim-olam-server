@@ -29,8 +29,8 @@ class CatalogItemLogic (@Autowired val catalogItemDAL: CatalogItemDAL) : Catalog
         return catalogItemDAL.getAllCatalogItems()
     }
 
-    override fun getCatalogItemsByType(itemType: ItemType): List<CatalogItemEntity> {
-        return catalogItemDAL.getCatalogItemsByType(itemType)
+    override fun getCatalogItemsByType(itemType: ItemType, page: Int?): List<CatalogItemEntity> {
+        return catalogItemDAL.getCatalogItemsByType(itemType, page)
     }
 
     override fun getCatalogItemsByFreeText(freeText: String): List<CatalogItemEntity> {

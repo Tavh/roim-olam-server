@@ -1,5 +1,6 @@
 package com.roimolam.project.dal
 
+import com.roimolam.project.constants.CATALOG_ITEMS_PER_PAGE
 import com.roimolam.project.data.CatalogItemIDWrapper
 import com.roimolam.project.data.entities.CatalogItemEntity
 import com.roimolam.project.enums.ErrorType
@@ -51,9 +52,14 @@ class CatalogItemDAL (@PersistenceContext val entityManager:EntityManager,
 
     @Transactional(propagation = Propagation.REQUIRED)
     @Throws(ApplicationException::class)
-    fun getCatalogItemsByType(itemType: ItemType): List<CatalogItemEntity> {
+    fun getCatalogItemsByType(itemType: ItemType, page: Int?): List<CatalogItemEntity> {
         val query = entityManager.createQuery("FROM CatalogItemEntity c WHERE c.itemType=:itemType")
                                  .setParameter("itemType", itemType)
+
+        if (page != null) {
+            query.firstResult = (page - 1) * CATALOG_ITEMS_PER_PAGE
+            query.maxResults = CATALOG_ITEMS_PER_PAGE
+        }
 
         return (query.resultList as List<CatalogItemEntity>).apply {
             if (isEmpty()) {

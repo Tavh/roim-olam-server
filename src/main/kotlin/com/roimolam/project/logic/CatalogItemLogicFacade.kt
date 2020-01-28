@@ -11,7 +11,7 @@ interface CatalogItemLogicFacade {
 
     fun getAllCatalogItems(): List<CatalogItemEntity>
 
-    fun getCatalogItemsByType(itemType: ItemType): List<CatalogItemEntity>
+    fun getCatalogItemsByType(itemType: ItemType, page: Int?): List<CatalogItemEntity>
 
     fun getCatalogItemsByFreeText(freeText: String): List<CatalogItemEntity>
 

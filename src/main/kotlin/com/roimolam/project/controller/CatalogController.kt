@@ -51,8 +51,8 @@ class CatalogController (@Autowired val catalogItemFacade: CatalogItemLogicFacad
     }
 
     @GetMapping("/get-catalog-items-by-type")
-    fun getCatalogItemsByType(@RequestParam itemType: ItemType): List<CatalogItemEntity> {
-        return catalogItemFacade.getCatalogItemsByType(itemType)
+    fun getCatalogItemsByType(@RequestParam itemType: ItemType, @RequestParam(required = false) page: Int?): List<CatalogItemEntity> {
+        return catalogItemFacade.getCatalogItemsByType(itemType, page)
     }
 
     @GetMapping("/get-catalog-items-by-brand-and-type")
