@@ -2,6 +2,7 @@ package com.roimolam.project.logic
 
 import com.roimolam.project.data.CatalogItemIDWrapper
 import com.roimolam.project.data.entities.CatalogItemEntity
+import com.roimolam.project.data.entities.CatalogItemsWrapper
 import com.roimolam.project.enums.ItemType
 
 interface CatalogItemLogicFacade {
@@ -11,7 +12,7 @@ interface CatalogItemLogicFacade {
 
     fun getAllCatalogItems(): List<CatalogItemEntity>
 
-    fun getCatalogItemsByType(itemType: ItemType, page: Int?): List<CatalogItemEntity>
+    fun getCatalogItemsByType(itemType: ItemType, page: Int?): CatalogItemsWrapper
 
     fun getCatalogItemsByFreeText(freeText: String): List<CatalogItemEntity>
 

@@ -6,6 +6,7 @@ import com.roimolam.project.data.CatalogItemIDWrapper
 import com.roimolam.project.data.PhotoUploadStatusWrapper
 import com.roimolam.project.logic.CatalogItemLogicFacade
 import com.roimolam.project.data.entities.CatalogItemEntity
+import com.roimolam.project.data.entities.CatalogItemsWrapper
 import com.roimolam.project.enums.ItemType
 import com.roimolam.project.enums.UserType
 import org.springframework.beans.factory.annotation.Autowired
@@ -51,7 +52,7 @@ class CatalogController (@Autowired val catalogItemFacade: CatalogItemLogicFacad
     }
 
     @GetMapping("/get-catalog-items-by-type")
-    fun getCatalogItemsByType(@RequestParam itemType: ItemType, @RequestParam(required = false) page: Int?): List<CatalogItemEntity> {
+    fun getCatalogItemsByType(@RequestParam itemType: ItemType, @RequestParam(required = false) page: Int?): CatalogItemsWrapper {
         return catalogItemFacade.getCatalogItemsByType(itemType, page)
     }
 
