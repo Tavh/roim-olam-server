@@ -29,8 +29,7 @@ class UsersDAL (@PersistenceContext val entityManager:EntityManager) {
                                          .setParameter("email", email)
 
         if (query.resultList.isEmpty()) {
-            throw ApplicationException(ErrorType.NO_DATA_FOUND,
-                    "The user you requested ($email) could not be found")
+            return null;
         }
 
         return query.singleResult as UserEntity
