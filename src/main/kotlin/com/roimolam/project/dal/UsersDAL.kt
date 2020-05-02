@@ -29,7 +29,7 @@ class UsersDAL (@PersistenceContext val entityManager:EntityManager) {
                                          .setParameter("email", email)
 
         if (query.resultList.isEmpty()) {
-            return null;
+            return null // This is especially crucial when this function is called through create-user
         }
 
         return query.singleResult as UserEntity

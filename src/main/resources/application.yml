@@ -6,15 +6,15 @@ spring:
     name: roim-olam-server
 
   jpa:
-    database: mysql
+    database: POSTGRESQL
     show-sql: true
     hibernate:
       ddl-auto: update
-    properties.hibernate.dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+    properties.hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
 
   datasource:
-    platform: mysql
-    url: jdbc:mysql://localhost:3306/roim_olam?serverTimezone=UTC
-    username: root
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/roim_olam
+    username: postgres
     password: ${SQL_PASSWORD}
-    driverClassName: com.mysql.cj.jdbc.Driver
+    driverClassName: org.postgresql.Driver
