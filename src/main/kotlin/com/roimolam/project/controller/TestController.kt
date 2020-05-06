@@ -28,6 +28,6 @@ class TestController () {
 
     @GetMapping
     fun getCatalogItemsByFreeText(): String {
-        return "Heroku build is working!"
+        return "Working!"
     }
 }
