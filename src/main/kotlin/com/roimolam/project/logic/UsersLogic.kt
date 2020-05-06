@@ -2,9 +2,9 @@ package com.roimolam.project.logic
 
 import com.roimolam.project.dal.UsersDAL
 import com.roimolam.project.data.entities.UserEntity
-import com.roimolam.project.enums.UserType
 import com.roimolam.project.exceptions.ApplicationException
 import com.roimolam.project.enums.ErrorType
+import com.roimolam.project.enums.UserType
 import com.roimolam.project.utils.InputValidationUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller

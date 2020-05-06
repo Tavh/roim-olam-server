@@ -7,7 +7,6 @@ import com.roimolam.project.data.entities.CatalogItemsWrapper
 import com.roimolam.project.enums.ErrorType
 import com.roimolam.project.enums.ItemType
 import com.roimolam.project.exceptions.ApplicationException
-import org.apache.coyote.Constants
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Propagation

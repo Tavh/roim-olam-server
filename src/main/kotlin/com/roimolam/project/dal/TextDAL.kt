@@ -1,5 +1,6 @@
 package com.roimolam.project.dal
 
+import com.roimolam.project.constants.SPRING_MAIN_DIRECTORY_KEY
 import com.roimolam.project.constants.WEBSITE_TEXT_DIRECTORY
 import com.roimolam.project.data.TextWrapper
 import org.springframework.beans.factory.annotation.Autowired
@@ -8,8 +9,7 @@ import org.springframework.stereotype.Repository
 import java.io.File
 
 @Repository
-class TextDAL (@Autowired val env: Environment,
-               val websiteTextDirectory: String? = env.getProperty(WEBSITE_TEXT_DIRECTORY)) {
+class TextDAL (val websiteTextDirectory: String = System.getProperty(SPRING_MAIN_DIRECTORY_KEY) + WEBSITE_TEXT_DIRECTORY) {
 
     fun writeToTextFile(filePath: String, fileContent: String): TextWrapper {
         val fullPath = "$websiteTextDirectory$filePath.txt"
