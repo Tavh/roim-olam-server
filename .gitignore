@@ -31,6 +31,6 @@ build/
 .vscode/
 
 ### ETC ###
-src/main/resources/catalog_item_photos/**
-src/main/resources/website_content/**
+src/main/resources/catalog_item_photos/*
+!src/main/resources/catalog_item_photos/default.png
 
