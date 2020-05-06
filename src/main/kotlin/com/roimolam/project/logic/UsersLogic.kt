@@ -14,9 +14,9 @@ class UsersLogic (@Autowired val usersDAL: UsersDAL) : UsersLogicFacade {
 
     override fun createUser(user: UserEntity): Long {
         user.apply {
-//            if (userType == UserType.ADMIN) {
-//                throw ApplicationException(ErrorType.WRONG_INPUT, "An admin type user cannot be created this way")
-//            }
+            if (userType == UserType.ADMIN) {
+                throw ApplicationException(ErrorType.WRONG_INPUT, "An admin type user cannot be created this way")
+            }
 
             if (!InputValidationUtils.isEmailValid(email)) {
                 throw ApplicationException(ErrorType.WRONG_INPUT, "The email you inserted is invalid")
