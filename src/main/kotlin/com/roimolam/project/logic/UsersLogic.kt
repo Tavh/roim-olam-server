@@ -2,9 +2,9 @@ package com.roimolam.project.logic
 
 import com.roimolam.project.dal.UsersDAL
 import com.roimolam.project.data.entities.UserEntity
+import com.roimolam.project.enums.UserType
 import com.roimolam.project.exceptions.ApplicationException
 import com.roimolam.project.enums.ErrorType
-import com.roimolam.project.enums.UserType
 import com.roimolam.project.utils.InputValidationUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
@@ -14,9 +14,9 @@ class UsersLogic (@Autowired val usersDAL: UsersDAL) : UsersLogicFacade {
 
     override fun createUser(user: UserEntity): Long {
         user.apply {
-//            if (userType == UserType.ADMIN) {
-//                throw ApplicationException(ErrorType.WRONG_INPUT, "An admin type user cannot be created this way")
-//            }
+            if (userType == UserType.ADMIN) {
+                throw ApplicationException(ErrorType.WRONG_INPUT, "An admin type user cannot be created this way")
+            }
 
             if (!InputValidationUtils.isEmailValid(email)) {
                 throw ApplicationException(ErrorType.WRONG_INPUT, "The email you inserted is invalid")
