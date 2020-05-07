@@ -1,0 +1,15 @@
+server:
+  port: 5000
+
+spring:
+  application:
+    name: roim-olam-server
+  profiles:
+    active: @spring.profiles.active@
+
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://roim-olam-db.cbxt9i4cijlc.eu-central-1.rds.amazonaws.com:5432/roim_olam
+    username: postgres
+    password: postgres
+    driverClassName: org.postgresql.Driver
