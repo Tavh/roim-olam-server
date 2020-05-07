@@ -189,6 +189,9 @@
 
 	<profiles>
 		<profile>
+			<properties>
+				<spring.profiles.active>dev</spring.profiles.active>
+			</properties>
 			<id>dev</id>
 			<build>
 				<plugins>
@@ -222,9 +225,6 @@
 					</plugin>
 				</plugins>
 			</build>
-			<properties>
-				<spring.profiles.active>dev</spring.profiles.active>
-			</properties>
 		</profile>
 
 		<profile>
