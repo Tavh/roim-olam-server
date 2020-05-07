@@ -4,8 +4,6 @@ server:
 spring:
   application:
     name: roim-olam-server
-  profiles:
-    active: @spring.profiles.active@
 
   jpa:
     database: POSTGRESQL
@@ -13,3 +11,10 @@ spring:
     hibernate:
       ddl-auto: update
     properties.hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/roim_olam
+    username: postgres
+    password: ${SQL_PASSWORD}
+    driverClassName: org.postgresql.Driver
