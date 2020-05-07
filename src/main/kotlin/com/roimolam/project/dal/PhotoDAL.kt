@@ -2,10 +2,11 @@ package com.roimolam.project.dal
 
 import com.roimolam.project.constants.CATALOG_PHOTO_DIRECTORY
 import com.roimolam.project.constants.DEFAULT_CATALOG_PHOTO_NAME
-import com.roimolam.project.constants.SPRING_MAIN_DIRECTORY_KEY
 import com.roimolam.project.data.PhotoUploadStatusWrapper
 import com.roimolam.project.exceptions.ApplicationException
 import com.roimolam.project.enums.ErrorType
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.core.env.Environment
 import org.springframework.stereotype.Repository
 import org.springframework.web.multipart.MultipartFile
 import java.awt.image.BufferedImage
@@ -19,7 +20,8 @@ import java.util.*
 
 
 @Repository
-class PhotoDAL (val catalogPhotoDirectory: String? = System.getProperty(SPRING_MAIN_DIRECTORY_KEY) + CATALOG_PHOTO_DIRECTORY,
+class PhotoDAL (@Autowired val env: Environment,
+                val catalogPhotoDirectory: String? = env.getProperty(CATALOG_PHOTO_DIRECTORY),
                 val defaultImagePath: String = catalogPhotoDirectory + DEFAULT_CATALOG_PHOTO_NAME) {
 
     fun saveCatalogItemPhoto(photo: MultipartFile): PhotoUploadStatusWrapper {
@@ -44,7 +46,7 @@ class PhotoDAL (val catalogPhotoDirectory: String? = System.getProperty(SPRING_M
         val path = catalogPhotoDirectory + photoFileName
         val file = File(path)
 
-        val image: BufferedImage
+        var image: BufferedImage
         image = try {
             ImageIO.read(file)
         } catch(e: IOException) {
