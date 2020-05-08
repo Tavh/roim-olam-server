@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.roimolam.project</groupId>
 	<artifactId>roim-olam-server</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<name>roim-olam-server</name>
 	<description>Serverside application</description>
 
