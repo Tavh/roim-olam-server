@@ -31,6 +31,7 @@ class CatalogController (@Autowired val catalogItemFacade: CatalogItemLogicFacad
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/create-catalog-item")
     fun createCatalogItem(@RequestBody catalogItemEntity: CatalogItemEntity): CatalogItemIDWrapper {
+        print(catalogItemEntity.photoId)
         return catalogItemFacade.createCatalogItem(catalogItemEntity)
     }
 

@@ -5,18 +5,16 @@ import com.roimolam.project.data.entities.UserEntity
 import com.roimolam.project.enums.UserType
 import com.roimolam.project.exceptions.ApplicationException
 import com.roimolam.project.enums.ErrorType
-import com.roimolam.project.utils.ApplicationStatus
 import com.roimolam.project.utils.InputValidationUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 
 @Controller
-class UsersLogic (@Autowired val usersDAL: UsersDAL,
-                  @Autowired val applicationStatus: ApplicationStatus) : UsersLogicFacade {
+class UsersLogic (@Autowired val usersDAL: UsersDAL) : UsersLogicFacade {
 
     override fun createUser(user: UserEntity): Long {
         user.apply {
-            if (!applicationStatus.isDevProfileActive && userType == UserType.ADMIN) {
+            if (userType == UserType.ADMIN) {
                 throw ApplicationException(ErrorType.WRONG_INPUT, "An admin type user cannot be created this way")
             }
 

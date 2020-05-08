@@ -1,6 +1,8 @@
 package com.roimolam.project.dal
 
 
+import com.roimolam.project.constants.DEFAULT_CATALOG_ITEM_PHOTO_PATH
+import com.roimolam.project.constants.SPRING_MAIN_DIRECTORY_KEY
 import com.roimolam.project.data.PhotoUploadIdWrapper
 import com.roimolam.project.data.entities.CatalogItemPhotoWrapper
 import org.springframework.beans.factory.annotation.Autowired
@@ -9,6 +11,12 @@ import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
+import java.awt.image.BufferedImage
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.IOException
+import java.util.*
+import javax.imageio.ImageIO
 import javax.persistence.EntityManager
 import javax.persistence.PersistenceContext
 
@@ -28,6 +36,22 @@ class PhotoDAL (@Autowired val env: Environment,
     }
 
     fun getCatalogItemPhoto(id: Long): ByteArray {
-        return entityManager.find(CatalogItemPhotoWrapper::class.java, id).photo
+
+        entityManager.find(CatalogItemPhotoWrapper::class.java, id).apply {
+            if (this != null) {
+                return photo
+            }
+        }
+
+        val mainDir = System.getProperty(SPRING_MAIN_DIRECTORY_KEY)
+        val file = File("${mainDir}${DEFAULT_CATALOG_ITEM_PHOTO_PATH}")
+
+        val image: BufferedImage
+        image = ImageIO.read(file)
+
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        ImageIO.write(image, "jpg", byteArrayOutputStream)
+
+        return byteArrayOutputStream.toByteArray()
     }
 }
