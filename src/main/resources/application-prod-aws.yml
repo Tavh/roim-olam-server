@@ -5,6 +5,13 @@ spring:
   application:
     name: roim-olam-server
 
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties.hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+
   datasource:
     platform: postgres
     url: jdbc:postgresql://roim-olam-pg.cbxt9i4cijlc.eu-central-1.rds.amazonaws.com:5430/roim_olam
