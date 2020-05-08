@@ -2,7 +2,7 @@ package com.roimolam.project.logic
 
 import com.roimolam.project.data.CatalogItemIDWrapper
 import com.roimolam.project.data.entities.CatalogItemEntity
-import com.roimolam.project.data.entities.CatalogItemsWrapper
+import com.roimolam.project.data.CatalogItemsWrapper
 import com.roimolam.project.enums.ItemType
 
 interface CatalogItemLogicFacade {

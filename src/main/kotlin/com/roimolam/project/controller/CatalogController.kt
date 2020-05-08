@@ -3,10 +3,10 @@ package com.roimolam.project.controller
 import com.roimolam.project.annotations.UserPermission
 import com.roimolam.project.dal.PhotoDAL
 import com.roimolam.project.data.CatalogItemIDWrapper
-import com.roimolam.project.data.PhotoUploadStatusWrapper
+import com.roimolam.project.data.PhotoUploadIdWrapper
 import com.roimolam.project.logic.CatalogItemLogicFacade
 import com.roimolam.project.data.entities.CatalogItemEntity
-import com.roimolam.project.data.entities.CatalogItemsWrapper
+import com.roimolam.project.data.CatalogItemsWrapper
 import com.roimolam.project.enums.ItemType
 import com.roimolam.project.enums.UserType
 import org.springframework.beans.factory.annotation.Autowired
@@ -37,7 +37,7 @@ class CatalogController (@Autowired val catalogItemFacade: CatalogItemLogicFacad
     @UserPermission(userType = UserType.ADMIN)
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/save-catalog-item-photo")
-    fun saveCatalogItemPhoto(@ModelAttribute photo: MultipartFile): PhotoUploadStatusWrapper {
+    fun saveCatalogItemPhoto(@ModelAttribute photo: MultipartFile): PhotoUploadIdWrapper {
         return photoUploadingDAL.saveCatalogItemPhoto(photo)
     }
 

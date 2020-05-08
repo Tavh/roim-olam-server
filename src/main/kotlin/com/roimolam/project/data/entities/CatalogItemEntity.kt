@@ -26,8 +26,8 @@ data class CatalogItemEntity(
         @Column (name="description", nullable=false)
         val description: String,
 
-        @Column (name="photo_name", nullable=false)
-        val photoFileName: String,
+        @Column (name="photo_id", nullable=false)
+        val photoId: Long,
 
         @Column(name="item_type", nullable=false)
         @Enumerated(EnumType.STRING)

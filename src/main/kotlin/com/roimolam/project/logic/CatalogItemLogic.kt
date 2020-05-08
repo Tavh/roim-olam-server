@@ -4,7 +4,7 @@ import com.roimolam.project.constants.*
 import com.roimolam.project.dal.CatalogItemDAL
 import com.roimolam.project.data.CatalogItemIDWrapper
 import com.roimolam.project.data.entities.CatalogItemEntity
-import com.roimolam.project.data.entities.CatalogItemsWrapper
+import com.roimolam.project.data.CatalogItemsWrapper
 import com.roimolam.project.exceptions.ApplicationException
 import com.roimolam.project.enums.ErrorType
 import com.roimolam.project.enums.ItemType
