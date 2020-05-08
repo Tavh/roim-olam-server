@@ -4,8 +4,6 @@ server:
 spring:
   application:
     name: roim-olam-server
-#  profiles:
-#    active: @spring.profiles.active@
 
   datasource:
     platform: postgres
