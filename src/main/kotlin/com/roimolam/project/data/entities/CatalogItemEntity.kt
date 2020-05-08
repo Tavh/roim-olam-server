@@ -38,5 +38,5 @@ data class CatalogItemEntity(
         val brand: String,
 
         @Transient
-        var photoBase64String: String?
+        var photoBase64String: ByteArray?
 )

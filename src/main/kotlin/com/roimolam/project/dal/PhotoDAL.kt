@@ -27,7 +27,7 @@ class PhotoDAL (@Autowired val env: Environment,
         return PhotoUploadIdWrapper(catalogItemPhoto.id)
     }
 
-    fun getCatalogItemPhoto(id: Long): String {
-        return entityManager.find(CatalogItemPhotoWrapper::class.java, id).getPhoto()
+    fun getCatalogItemPhoto(id: Long): ByteArray {
+        return entityManager.find(CatalogItemPhotoWrapper::class.java, id).photo
     }
 }
