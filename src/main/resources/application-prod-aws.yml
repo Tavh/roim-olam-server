@@ -11,5 +11,5 @@ spring:
     platform: postgres
     url: jdbc:postgresql://roim-olam-db.cbxt9i4cijlc.eu-central-1.rds.amazonaws.com:5432/roim_olam
     username: postgres
-    password: postgres
+    password: 12345678
     driverClassName: org.postgresql.Driver
