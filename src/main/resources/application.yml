@@ -4,15 +4,15 @@ server:
 spring:
   application:
     name: roim-olam-server
-  profiles:
-    active: @spring.profiles.active@
+#  profiles:
+#    active: @spring.profiles.active@ Must uncomment for mvn install
 
   jpa:
-    database: POSTGRESQL
+    database: ${DATABASE}
     show-sql: true
     hibernate:
-      ddl-auto: update
-    properties.hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+      ddl-auto: ${DDL_STRATEGY}
+    properties.hibernate.dialect: ${HIBERNATE_DIALECT}
 
   datasource:
     platform: ${SQL_PLATFORM}
