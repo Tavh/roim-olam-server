@@ -14,7 +14,7 @@ spring:
 
   datasource:
     platform: mysql
-    url: jdbc:postgresql://roim-olam-msql.cbxt9i4cijlc.eu-central-1.rds.amazonaws.com:3306/roim_olam
+    url: jdbc:mysql://roim-olam-msql.cbxt9i4cijlc.eu-central-1.rds.amazonaws.com:3306/roim_olam
     username: root
     password: 12345678
     driverClassName: com.mysql.cj.jdbc.Driver
