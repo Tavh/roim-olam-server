@@ -3,7 +3,7 @@ package com.roimolam.project.dal
 
 import com.roimolam.project.constants.DEFAULT_CATALOG_ITEM_PHOTO_PATH
 import com.roimolam.project.constants.SPRING_MAIN_DIRECTORY_KEY
-import com.roimolam.project.data.PhotoUploadIdWrapper
+import com.roimolam.project.data.PhotoUploadStatusWrapper
 import com.roimolam.project.data.entities.CatalogItemPhotoWrapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.env.Environment
@@ -14,8 +14,6 @@ import org.springframework.web.multipart.MultipartFile
 import java.awt.image.BufferedImage
 import java.io.ByteArrayOutputStream
 import java.io.File
-import java.io.IOException
-import java.util.*
 import javax.imageio.ImageIO
 import javax.persistence.EntityManager
 import javax.persistence.PersistenceContext
@@ -26,16 +24,16 @@ class PhotoDAL (@Autowired val env: Environment,
                 @PersistenceContext val entityManager: EntityManager) {
 
     @Transactional(propagation = Propagation.REQUIRED)
-    fun saveCatalogItemPhoto(photo: MultipartFile): PhotoUploadIdWrapper {
+    fun saveCatalogItemPhoto(photo: MultipartFile, photoId: String): PhotoUploadStatusWrapper {
         val imageAsByteArray = photo.bytes
 
-        val catalogItemPhoto = CatalogItemPhotoWrapper(imageAsByteArray)
+        val catalogItemPhoto = CatalogItemPhotoWrapper(imageAsByteArray, photoId)
         entityManager.persist(catalogItemPhoto)
 
-        return PhotoUploadIdWrapper(catalogItemPhoto.id)
+        return PhotoUploadStatusWrapper("OK")
     }
 
-    fun getCatalogItemPhoto(id: Long): ByteArray {
+    fun getCatalogItemPhoto(id: String): ByteArray {
 
         entityManager.find(CatalogItemPhotoWrapper::class.java, id).apply {
             if (this != null) {
