@@ -3,11 +3,10 @@ package com.roimolam.project.dal
 import com.roimolam.project.constants.CATALOG_ITEMS_PER_PAGE
 import com.roimolam.project.data.CatalogItemIDWrapper
 import com.roimolam.project.data.entities.CatalogItemEntity
-import com.roimolam.project.data.entities.CatalogItemsWrapper
+import com.roimolam.project.data.CatalogItemsWrapper
 import com.roimolam.project.enums.ErrorType
 import com.roimolam.project.enums.ItemType
 import com.roimolam.project.exceptions.ApplicationException
-import org.apache.coyote.Constants
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Propagation
@@ -34,7 +33,7 @@ class CatalogItemDAL (@PersistenceContext val entityManager:EntityManager,
                 throw ApplicationException(ErrorType.NO_DATA_FOUND, "Couldn't find catalog item with id: $id")
             }
 
-            photoBase64String = photoDAL.getCatalogItemPhoto(photoFileName)
+            photoBase64String = photoDAL.getCatalogItemPhoto(photoId)
         }
     }
 
@@ -48,7 +47,7 @@ class CatalogItemDAL (@PersistenceContext val entityManager:EntityManager,
                 throw ApplicationException(ErrorType.NO_DATA_FOUND, "Couldn't find any catalog items")
             }
 
-            forEach { c -> c.photoBase64String = photoDAL.getCatalogItemPhoto(c.photoFileName) }
+            forEach { c -> c.photoBase64String = photoDAL.getCatalogItemPhoto(c.photoId) }
         }
     }
 
@@ -70,7 +69,7 @@ class CatalogItemDAL (@PersistenceContext val entityManager:EntityManager,
                 throw ApplicationException(ErrorType.NO_DATA_FOUND, "Couldn't find any catalog items")
             }
 
-            forEach { c -> c.photoBase64String = photoDAL.getCatalogItemPhoto(c.photoFileName) }
+            forEach { c -> c.photoBase64String = photoDAL.getCatalogItemPhoto(c.photoId) }
         }
         val catalogItemsCountQuery = entityManager.createQuery("SELECT count(*) FROM CatalogItemEntity")
         val totalPages = (catalogItemsCountQuery.getSingleResult() as Long) / CATALOG_ITEMS_PER_PAGE
@@ -91,7 +90,7 @@ class CatalogItemDAL (@PersistenceContext val entityManager:EntityManager,
                 throw ApplicationException(ErrorType.NO_DATA_FOUND, "Couldn't find any $itemType with brand $brand")
             }
 
-            forEach { c -> c.photoBase64String = photoDAL.getCatalogItemPhoto(c.photoFileName) }
+            forEach { c -> c.photoBase64String = photoDAL.getCatalogItemPhoto(c.photoId) }
         }
     }
 }
