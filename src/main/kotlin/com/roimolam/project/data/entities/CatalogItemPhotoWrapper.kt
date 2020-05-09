@@ -17,8 +17,7 @@ data class CatalogItemPhotoWrapper (
         val photo: ByteArray,
 
         @Id
-        @GeneratedValue
-        val id: Long = 0
+        val id: String
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

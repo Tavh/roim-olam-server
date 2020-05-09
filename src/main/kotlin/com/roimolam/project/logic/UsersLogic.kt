@@ -36,6 +36,7 @@ class UsersLogic (@Autowired val usersDAL: UsersDAL) : UsersLogicFacade {
         }
     }
 
+
     override fun getUser(email: String): UserEntity? {
         return usersDAL.getUser(email)
                 ?: throw ApplicationException(ErrorType.NO_DATA_FOUND,

@@ -3,7 +3,7 @@ package com.roimolam.project.controller
 import com.roimolam.project.annotations.UserPermission
 import com.roimolam.project.dal.PhotoDAL
 import com.roimolam.project.data.CatalogItemIDWrapper
-import com.roimolam.project.data.PhotoUploadIdWrapper
+import com.roimolam.project.data.PhotoUploadStatusWrapper
 import com.roimolam.project.logic.CatalogItemLogicFacade
 import com.roimolam.project.data.entities.CatalogItemEntity
 import com.roimolam.project.data.CatalogItemsWrapper
@@ -31,14 +31,15 @@ class CatalogController (@Autowired val catalogItemFacade: CatalogItemLogicFacad
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/create-catalog-item")
     fun createCatalogItem(@RequestBody catalogItemEntity: CatalogItemEntity): CatalogItemIDWrapper {
+        print(catalogItemEntity.photoId)
         return catalogItemFacade.createCatalogItem(catalogItemEntity)
     }
 
     @UserPermission(userType = UserType.ADMIN)
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/save-catalog-item-photo")
-    fun saveCatalogItemPhoto(@ModelAttribute photo: MultipartFile): PhotoUploadIdWrapper {
-        return photoUploadingDAL.saveCatalogItemPhoto(photo)
+    fun saveCatalogItemPhoto(@ModelAttribute photo: MultipartFile, @RequestParam photoId: String): PhotoUploadStatusWrapper {
+        return photoUploadingDAL.saveCatalogItemPhoto(photo, photoId)
     }
 
     @GetMapping("/get-catalog-item/{id}")
