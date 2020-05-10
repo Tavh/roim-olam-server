@@ -19,9 +19,6 @@ data class CatalogItemEntity(
         @Column (name="price", nullable=false)
         val price: Float,
 
-        @Column (name="amount_in_Stock", nullable=false)
-        val amountInStock: Int,
-
         @SafeHtml
         @Column (name="description", nullable=false)
         val description: String,
@@ -49,7 +46,6 @@ data class CatalogItemEntity(
                 if (id != other.id) return false
                 if (title != other.title) return false
                 if (price != other.price) return false
-                if (amountInStock != other.amountInStock) return false
                 if (description != other.description) return false
                 if (photoId != other.photoId) return false
                 if (itemType != other.itemType) return false
@@ -66,7 +62,6 @@ data class CatalogItemEntity(
                 var result = id.hashCode()
                 result = 31 * result + title.hashCode()
                 result = 31 * result + price.hashCode()
-                result = 31 * result + amountInStock
                 result = 31 * result + description.hashCode()
                 result = 31 * result + photoId.hashCode()
                 result = 31 * result + itemType.hashCode()
