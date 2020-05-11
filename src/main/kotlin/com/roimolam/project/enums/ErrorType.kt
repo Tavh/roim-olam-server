@@ -15,8 +15,5 @@ enum class ErrorType(val httpStatus: Int, val errorInfo: ErrorInfo) {
 
     USER_NOT_PERMITTED( 403, ErrorInfo("User does not have sufficient permissions",
                                                     "SECURITY")),
-
-    UPLOAD_FAILED( 510, ErrorInfo("Server failed to perform requested upload",
-                                                        "ERROR"))
 }
 
