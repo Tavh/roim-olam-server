@@ -57,4 +57,9 @@ class CatalogController (@Autowired val catalogItemFacade: CatalogItemLogicFacad
     fun getCatalogItemsByFreeText(@RequestParam freeText: String): List<CatalogItemEntity> {
         return catalogItemFacade.getCatalogItemsByFreeText(freeText)
     }
+
+    @DeleteMapping("/delete-catalog-item/{id}")
+    fun deleteCatalogItem(@PathVariable id: Long) {
+        catalogItemFacade.deleteCatalogItem(id)
+    }
 }

@@ -12,6 +12,7 @@ import com.roimolam.project.enums.ItemType
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.bind.annotation.PathVariable
 
 @Controller
 class CatalogItemLogic (@Autowired val catalogItemDAL: CatalogItemDAL,
@@ -56,5 +57,9 @@ class CatalogItemLogic (@Autowired val catalogItemDAL: CatalogItemDAL,
 
     override fun getCatalogItemsByBrand(itemType: ItemType, brand: String): List<CatalogItemEntity> {
         return catalogItemDAL.getCatalogItemsByBrand(itemType, brand)
+    }
+
+    override fun deleteCatalogItem(@PathVariable id: Long) {
+        return catalogItemDAL.deleteCatalogItem(id)
     }
 }

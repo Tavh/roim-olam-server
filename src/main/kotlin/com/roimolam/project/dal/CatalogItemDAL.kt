@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.bind.annotation.PathVariable
 import javax.persistence.EntityManager
 import javax.persistence.PersistenceContext
 
@@ -40,11 +41,11 @@ class CatalogItemDAL (@PersistenceContext val entityManager:EntityManager,
     fun getAllCatalogItems(): List<CatalogItemEntity> {
         val query = entityManager.createQuery("FROM CatalogItemEntity")
 
-        return (query.resultList as List<CatalogItemEntity>).apply {
-            if (isEmpty()) {
-                throw ApplicationException(ErrorType.NO_DATA_FOUND, "Couldn't find any catalog items")
-            }
+        if (query.resultList.isEmpty()) {
+            throw ApplicationException(ErrorType.NO_DATA_FOUND, "Couldn't find any catalog items")
         }
+
+        return query.resultList as List<CatalogItemEntity>
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
@@ -60,11 +61,10 @@ class CatalogItemDAL (@PersistenceContext val entityManager:EntityManager,
 
         val catalogItems = query.resultList as List<CatalogItemEntity>
 
-        catalogItems.apply {
-            if (isEmpty()) {
-                throw ApplicationException(ErrorType.NO_DATA_FOUND, "Couldn't find any catalog items")
-            }
+        if (catalogItems.isEmpty()) {
+            throw ApplicationException(ErrorType.NO_DATA_FOUND, "Couldn't find any catalog items")
         }
+
         val catalogItemsCountQuery = entityManager.createQuery("SELECT count(*) FROM CatalogItemEntity")
         val totalPages = (catalogItemsCountQuery.getSingleResult() as Long) / CATALOG_ITEMS_PER_PAGE
 
@@ -75,14 +75,19 @@ class CatalogItemDAL (@PersistenceContext val entityManager:EntityManager,
     @Throws(ApplicationException::class)
     fun getCatalogItemsByBrand(itemType: ItemType, brand: String): List<CatalogItemEntity> {
         val query = entityManager.createQuery("FROM CatalogItemEntity c WHERE c.itemType=:itemType " +
-                "                                                                   AND c.brand=:brand")
-                                                                                    .setParameter("itemType", itemType)
-                                                                                    .setParameter("brand", brand)
+                                                "AND c.brand=:brand").setParameter("itemType", itemType)
+                                                                     .setParameter("brand", brand)
 
-        return (query.resultList as List<CatalogItemEntity>).apply {
-            if (isEmpty()) {
-                throw ApplicationException(ErrorType.NO_DATA_FOUND, "Couldn't find any $itemType with brand $brand")
-            }
+        if (query.resultList.isEmpty()) {
+            throw ApplicationException(ErrorType.NO_DATA_FOUND, "Couldn't find any $itemType with brand $brand")
+        }
+
+        return query.resultList as List<CatalogItemEntity>
+    }
+
+    fun deleteCatalogItem(@PathVariable id: Long) {
+        entityManager.find(CatalogItemEntity::class.java, id).apply {
+            entityManager.remove(this)
         }
     }
 }
