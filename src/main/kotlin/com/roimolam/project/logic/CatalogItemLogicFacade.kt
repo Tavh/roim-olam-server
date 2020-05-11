@@ -4,6 +4,7 @@ import com.roimolam.project.data.CatalogItemIDWrapper
 import com.roimolam.project.data.entities.CatalogItemEntity
 import com.roimolam.project.data.CatalogItemsWrapper
 import com.roimolam.project.enums.ItemType
+import org.springframework.web.bind.annotation.PathVariable
 
 interface CatalogItemLogicFacade {
     fun createCatalogItem(catalogItemEntity: CatalogItemEntity): CatalogItemIDWrapper
@@ -17,4 +18,6 @@ interface CatalogItemLogicFacade {
     fun getCatalogItemsByFreeText(freeText: String): List<CatalogItemEntity>
 
     fun getCatalogItemsByBrand(itemType: ItemType, brand: String): List<CatalogItemEntity>
+
+    fun deleteCatalogItem(@PathVariable id: Long)
 }
