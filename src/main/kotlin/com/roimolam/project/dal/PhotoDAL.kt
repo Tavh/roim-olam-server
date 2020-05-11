@@ -3,14 +3,13 @@ package com.roimolam.project.dal
 
 import com.roimolam.project.constants.DEFAULT_CATALOG_ITEM_PHOTO_PATH
 import com.roimolam.project.constants.SPRING_MAIN_DIRECTORY_KEY
-import com.roimolam.project.data.PhotoUploadStatusWrapper
-import com.roimolam.project.data.entities.CatalogItemPhotoWrapper
+import com.roimolam.project.data.PhotoUploadIdWrapper
+import com.roimolam.project.data.entities.CatalogItemPhotoEntity
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.env.Environment
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.web.multipart.MultipartFile
 import java.awt.image.BufferedImage
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -24,20 +23,17 @@ class PhotoDAL (@Autowired val env: Environment,
                 @PersistenceContext val entityManager: EntityManager) {
 
     @Transactional(propagation = Propagation.REQUIRED)
-    fun saveCatalogItemPhoto(photo: MultipartFile, photoId: String): PhotoUploadStatusWrapper {
-        val imageAsByteArray = photo.bytes
-
-        val catalogItemPhoto = CatalogItemPhotoWrapper(imageAsByteArray, photoId)
+    fun saveCatalogItemPhoto(catalogItemPhoto: CatalogItemPhotoEntity): PhotoUploadIdWrapper {
         entityManager.persist(catalogItemPhoto)
 
-        return PhotoUploadStatusWrapper("OK")
+        return PhotoUploadIdWrapper(catalogItemPhoto.id)
     }
 
     fun getCatalogItemPhoto(id: String): ByteArray {
 
-        entityManager.find(CatalogItemPhotoWrapper::class.java, id).apply {
+        entityManager.find(CatalogItemPhotoEntity::class.java, id).apply {
             if (this != null) {
-                return photo
+                return photoBase64
             }
         }
 

@@ -1,38 +1,35 @@
 package com.roimolam.project.data.entities
 
 import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.annotation.JsonProperty
-import com.roimolam.project.enums.UserType
-import org.hibernate.validator.constraints.SafeHtml
-import org.springframework.web.multipart.MultipartFile
-import java.sql.Clob
 import javax.persistence.*
 
 @Entity
 @Table(name="catalog_item_photo")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-data class CatalogItemPhotoWrapper (
+data class CatalogItemPhotoEntity (
 
         @Lob
-        val photo: ByteArray,
+        val photoBase64: ByteArray,
 
         @Id
-        val id: String
+        @GeneratedValue
+        @Column(name = "photo_id")
+        var id: Long
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as CatalogItemPhotoWrapper
+        other as CatalogItemPhotoEntity
 
-        if (!photo.contentEquals(other.photo)) return false
+        if (!photoBase64.contentEquals(other.photoBase64)) return false
         if (id != other.id) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        var result = photo.contentHashCode()
+        var result = photoBase64.contentHashCode()
         result = 31 * result + id.hashCode()
         return result
     }

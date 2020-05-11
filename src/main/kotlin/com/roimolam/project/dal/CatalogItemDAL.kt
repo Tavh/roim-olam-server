@@ -32,8 +32,6 @@ class CatalogItemDAL (@PersistenceContext val entityManager:EntityManager,
             if (this == null) {
                 throw ApplicationException(ErrorType.NO_DATA_FOUND, "Couldn't find catalog item with id: $id")
             }
-
-            photoBase64String = photoDAL.getCatalogItemPhoto(photoId)
         }
     }
 
@@ -46,8 +44,6 @@ class CatalogItemDAL (@PersistenceContext val entityManager:EntityManager,
             if (isEmpty()) {
                 throw ApplicationException(ErrorType.NO_DATA_FOUND, "Couldn't find any catalog items")
             }
-
-            forEach { c -> c.photoBase64String = photoDAL.getCatalogItemPhoto(c.photoId) }
         }
     }
 
@@ -68,8 +64,6 @@ class CatalogItemDAL (@PersistenceContext val entityManager:EntityManager,
             if (isEmpty()) {
                 throw ApplicationException(ErrorType.NO_DATA_FOUND, "Couldn't find any catalog items")
             }
-
-            forEach { c -> c.photoBase64String = photoDAL.getCatalogItemPhoto(c.photoId) }
         }
         val catalogItemsCountQuery = entityManager.createQuery("SELECT count(*) FROM CatalogItemEntity")
         val totalPages = (catalogItemsCountQuery.getSingleResult() as Long) / CATALOG_ITEMS_PER_PAGE
@@ -89,8 +83,6 @@ class CatalogItemDAL (@PersistenceContext val entityManager:EntityManager,
             if (isEmpty()) {
                 throw ApplicationException(ErrorType.NO_DATA_FOUND, "Couldn't find any $itemType with brand $brand")
             }
-
-            forEach { c -> c.photoBase64String = photoDAL.getCatalogItemPhoto(c.photoId) }
         }
     }
 }
