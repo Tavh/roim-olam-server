@@ -2,6 +2,7 @@ package com.roimolam.project.controller
 
 import com.roimolam.project.annotations.UserPermission
 import com.roimolam.project.dal.PhotoDAL
+import com.roimolam.project.data.CatalogItemDeleteStatusWrapper
 import com.roimolam.project.data.CatalogItemIDWrapper
 import com.roimolam.project.logic.CatalogItemLogicFacade
 import com.roimolam.project.data.entities.CatalogItemEntity
@@ -18,7 +19,8 @@ import org.springframework.web.bind.annotation.*
                     RequestMethod.HEAD,
                     RequestMethod.OPTIONS,
                     RequestMethod.PUT,
-                    RequestMethod.PATCH ],
+                    RequestMethod.PATCH,
+                    RequestMethod.DELETE ],
         exposedHeaders = [ "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials", "errorMessage" ])
 @RestController
 @RequestMapping("/catalog")
@@ -59,7 +61,7 @@ class CatalogController (@Autowired val catalogItemFacade: CatalogItemLogicFacad
     }
 
     @DeleteMapping("/delete-catalog-item/{id}")
-    fun deleteCatalogItem(@PathVariable id: Long) {
-        catalogItemFacade.deleteCatalogItem(id)
+    fun deleteCatalogItem(@PathVariable id: Long): CatalogItemDeleteStatusWrapper {
+        return catalogItemFacade.deleteCatalogItem(id)
     }
 }

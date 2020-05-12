@@ -1,5 +1,6 @@
 package com.roimolam.project.logic
 
+import com.roimolam.project.data.CatalogItemDeleteStatusWrapper
 import com.roimolam.project.data.CatalogItemIDWrapper
 import com.roimolam.project.data.entities.CatalogItemEntity
 import com.roimolam.project.data.CatalogItemsWrapper
@@ -19,5 +20,5 @@ interface CatalogItemLogicFacade {
 
     fun getCatalogItemsByBrand(itemType: ItemType, brand: String): List<CatalogItemEntity>
 
-    fun deleteCatalogItem(@PathVariable id: Long)
+    fun deleteCatalogItem(@PathVariable id: Long): CatalogItemDeleteStatusWrapper
 }

@@ -3,6 +3,7 @@ package com.roimolam.project.logic
 import com.roimolam.project.constants.*
 import com.roimolam.project.dal.CatalogItemDAL
 import com.roimolam.project.dal.PhotoDAL
+import com.roimolam.project.data.CatalogItemDeleteStatusWrapper
 import com.roimolam.project.data.CatalogItemIDWrapper
 import com.roimolam.project.data.entities.CatalogItemEntity
 import com.roimolam.project.data.CatalogItemsWrapper
@@ -59,7 +60,7 @@ class CatalogItemLogic (@Autowired val catalogItemDAL: CatalogItemDAL,
         return catalogItemDAL.getCatalogItemsByBrand(itemType, brand)
     }
 
-    override fun deleteCatalogItem(@PathVariable id: Long) {
+    override fun deleteCatalogItem(@PathVariable id: Long): CatalogItemDeleteStatusWrapper {
         return catalogItemDAL.deleteCatalogItem(id)
     }
 }

@@ -58,13 +58,15 @@ class UsersController (@Autowired val usersFacade: UsersLogicFacade) {
     fun logout(request: HttpServletRequest,
                response: HttpServletResponse) {
 
-        request.cookies.forEach {
-            if (it.name == USER_EMAIL_COOKIE_NAME) {
-                Cookie(USER_EMAIL_COOKIE_NAME, null).apply {
-                    value = null
-                    path = request.contextPath
-                    maxAge = 0
-                    response.addCookie(this)
+        if (request.cookies != null) {
+            request.cookies.forEach {
+                if (it.name == USER_EMAIL_COOKIE_NAME) {
+                    Cookie(USER_EMAIL_COOKIE_NAME, null).apply {
+                        value = null
+                        path = request.contextPath
+                        maxAge = 0
+                        response.addCookie(this)
+                    }
                 }
             }
         }
