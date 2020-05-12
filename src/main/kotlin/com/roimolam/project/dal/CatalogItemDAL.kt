@@ -67,9 +67,9 @@ class CatalogItemDAL (@PersistenceContext val entityManager:EntityManager,
         }
 
         val catalogItemsCountQuery = entityManager.createQuery("SELECT count(*) FROM CatalogItemEntity")
-        val totalPages = (catalogItemsCountQuery.getSingleResult() as Long) / CATALOG_ITEMS_PER_PAGE
+        val totalPages = catalogItemsCountQuery.getSingleResult() as Long / CATALOG_ITEMS_PER_PAGE.toDouble()
 
-        return CatalogItemsWrapper(totalPages, catalogItems)
+        return CatalogItemsWrapper(Math.ceil(totalPages).toLong(), catalogItems)
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
