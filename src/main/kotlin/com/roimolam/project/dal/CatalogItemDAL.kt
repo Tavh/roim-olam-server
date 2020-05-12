@@ -1,6 +1,7 @@
 package com.roimolam.project.dal
 
 import com.roimolam.project.constants.CATALOG_ITEMS_PER_PAGE
+import com.roimolam.project.data.CatalogItemDeleteStatusWrapper
 import com.roimolam.project.data.CatalogItemIDWrapper
 import com.roimolam.project.data.entities.CatalogItemEntity
 import com.roimolam.project.data.CatalogItemsWrapper
@@ -66,9 +67,9 @@ class CatalogItemDAL (@PersistenceContext val entityManager:EntityManager,
         }
 
         val catalogItemsCountQuery = entityManager.createQuery("SELECT count(*) FROM CatalogItemEntity")
-        val totalPages = (catalogItemsCountQuery.getSingleResult() as Long) / CATALOG_ITEMS_PER_PAGE
+        val totalPages = catalogItemsCountQuery.getSingleResult() as Long / CATALOG_ITEMS_PER_PAGE.toDouble()
 
-        return CatalogItemsWrapper(totalPages, catalogItems)
+        return CatalogItemsWrapper(Math.ceil(totalPages).toLong(), catalogItems)
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
@@ -85,9 +86,15 @@ class CatalogItemDAL (@PersistenceContext val entityManager:EntityManager,
         return query.resultList as List<CatalogItemEntity>
     }
 
-    fun deleteCatalogItem(@PathVariable id: Long) {
+    @Transactional(propagation = Propagation.REQUIRED)
+    fun deleteCatalogItem(@PathVariable id: Long): CatalogItemDeleteStatusWrapper {
+        println(id)
         entityManager.find(CatalogItemEntity::class.java, id).apply {
-            entityManager.remove(this)
+            if (this != null) {
+                entityManager.remove(this)
+            }
         }
+
+        return CatalogItemDeleteStatusWrapper("OK")
     }
 }
