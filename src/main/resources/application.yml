@@ -5,7 +5,7 @@ spring:
   application:
     name: roim-olam-server
   profiles:
-    active: @spring.profiles.active@ # Must uncomment for mvn install
+    active: '@spring.profiles.active@'
 
   jpa:
     database: ${DATABASE}
