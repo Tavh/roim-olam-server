@@ -68,8 +68,10 @@ class CatalogItemDAL (@PersistenceContext val entityManager:EntityManager,
 
         val catalogItemsCountQuery = entityManager.createQuery("SELECT count(*) FROM CatalogItemEntity")
         val totalPages = catalogItemsCountQuery.getSingleResult() as Long / CATALOG_ITEMS_PER_PAGE.toDouble()
+        val totalPagesRoundedUp = Math.ceil(totalPages).toLong()
+        println("totalPages is: ${totalPages}, rounding up to: ${totalPagesRoundedUp}")
 
-        return CatalogItemsWrapper(Math.ceil(totalPages).toLong(), catalogItems)
+        return CatalogItemsWrapper(totalPagesRoundedUp, catalogItems)
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
