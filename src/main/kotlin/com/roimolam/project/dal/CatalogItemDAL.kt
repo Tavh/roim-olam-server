@@ -66,7 +66,7 @@ class CatalogItemDAL (@PersistenceContext val entityManager:EntityManager,
             throw ApplicationException(ErrorType.NO_DATA_FOUND, "Couldn't find any catalog items")
         }
 
-        val catalogItemsCountQuery = entityManager.createQuery("SELECT count(*) FROM CatalogItemEntity")
+        val catalogItemsCountQuery = entityManager.createQuery("SELECT count(*) FROM CatalogItemEntity c WHERE c.itemType=:itemType").setParameter("itemType", itemType)
         val totalPages = catalogItemsCountQuery.getSingleResult() as Long / CATALOG_ITEMS_PER_PAGE.toDouble()
         val totalPagesRoundedUp = Math.ceil(totalPages).toLong()
         println("totalPages is: ${totalPages}, rounding up to: ${totalPagesRoundedUp}")
