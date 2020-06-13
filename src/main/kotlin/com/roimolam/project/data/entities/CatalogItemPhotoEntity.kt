@@ -9,7 +9,7 @@ import javax.persistence.*
 data class CatalogItemPhotoEntity (
 
         @Lob
-        val photoBase64: ByteArray,
+        var photoBase64: ByteArray,
 
         @Id
         @GeneratedValue

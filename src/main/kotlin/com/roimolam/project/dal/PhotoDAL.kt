@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional
 import java.awt.image.BufferedImage
 import java.io.ByteArrayOutputStream
 import java.io.File
+import java.util.zip.Deflater
 import javax.imageio.ImageIO
 import javax.persistence.EntityManager
 import javax.persistence.PersistenceContext
@@ -24,6 +25,18 @@ class PhotoDAL (@Autowired val env: Environment,
 
     @Transactional(propagation = Propagation.REQUIRED)
     fun saveCatalogItemPhoto(catalogItemPhoto: CatalogItemPhotoEntity): PhotoUploadIdWrapper {
+        val photoAsByteArray = catalogItemPhoto.photoBase64
+        val baos = ByteArrayOutputStream()
+        val dfl = Deflater()
+        dfl.setLevel(Deflater.BEST_COMPRESSION)
+        dfl.setInput(photoAsByteArray)
+        val buffer = ByteArray(4 * 1024)
+        while (!dfl.finished()) {
+            val size = dfl.deflate(buffer)
+            baos.write(buffer, 0, size)
+        }
+        baos.close()
+        catalogItemPhoto.photoBase64 = baos.toByteArray()
         entityManager.persist(catalogItemPhoto)
 
         return PhotoUploadIdWrapper(catalogItemPhoto.id)
