@@ -3,6 +3,7 @@ package com.roimolam.project
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.roimolam.project.controller.CatalogController
+import com.roimolam.project.dal.CatalogItemDAL
 import com.roimolam.project.dal.PhotoDAL
 import com.roimolam.project.data.entities.CatalogItemEntity
 import com.roimolam.project.data.entities.CatalogItemPhotoEntity
@@ -15,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
+import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
@@ -24,13 +27,14 @@ import org.springframework.web.context.WebApplicationContext
 import kotlin.test.assertEquals
 
 @WebMvcTest(CatalogController::class)
+@ContextConfiguration(classes = [CatalogController::class, CatalogItemLogic::class])
 class CatalogItemTests {
 
     @MockBean
-    private lateinit var catalogItemLogic: CatalogItemLogic
+    private lateinit var photoDAL: PhotoDAL
 
     @MockBean
-    private lateinit var photoDAL: PhotoDAL
+    private lateinit var catalogItemDAL: CatalogItemDAL
 
     @Autowired
     private lateinit var webApplicationContext: WebApplicationContext
@@ -53,7 +57,7 @@ class CatalogItemTests {
                 CatalogItemPhotoEntity(ByteArray(0), 0)
         )
 
-        given(catalogItemLogic.getCatalogItem(catalogItem.id)).willReturn(catalogItem)
+        given(catalogItemDAL.getCatalogItem(catalogItem.id)).willReturn(catalogItem)
 
         val result = mockMvc.perform(get("/catalog/get-catalog-item/{id}", "1")
                 .contentType(MediaType.APPLICATION_JSON))

@@ -1,10 +1,7 @@
 package com.roimolam.project.dal
 
 
-import com.roimolam.project.constants.COMPRESSED_PHOTO_PATH
-import com.roimolam.project.constants.DEFAULT_CATALOG_ITEM_PHOTO_PATH
-import com.roimolam.project.constants.SPRING_MAIN_DIRECTORY_KEY
-import com.roimolam.project.constants.UNCOMPRESSED_PHOTO_PATH
+import com.roimolam.project.constants.*
 import com.roimolam.project.data.PhotoUploadIdWrapper
 import com.roimolam.project.data.entities.CatalogItemPhotoEntity
 import org.springframework.beans.factory.annotation.Autowired
@@ -37,6 +34,16 @@ class PhotoDAL (@Autowired val env: Environment,
     private fun compressBase64(catalogItemPhoto: CatalogItemPhotoEntity) {
         println("Initial image size : ${catalogItemPhoto.photoBase64.size}")
         val mainDir = System.getProperty(SPRING_MAIN_DIRECTORY_KEY)
+        val tempDirPath = "${mainDir}${TEMP_COMPRESSION_FOLDER}"
+        val file = File(tempDirPath)
+        if (!file.exists()) {
+            if (file.mkdir()) {
+                println("Creating new directory: ${mainDir}${TEMP_COMPRESSION_FOLDER}")
+            } else {
+                println("Failed to create directory: ${mainDir}${TEMP_COMPRESSION_FOLDER}")
+            }
+        }
+
         val uncompressedPhotoPath = "${mainDir}${UNCOMPRESSED_PHOTO_PATH}"
         val compressedPhotoPath = "${mainDir}${COMPRESSED_PHOTO_PATH}"
         FileOutputStream(uncompressedPhotoPath).use { stream -> stream.write(catalogItemPhoto.photoBase64) }
