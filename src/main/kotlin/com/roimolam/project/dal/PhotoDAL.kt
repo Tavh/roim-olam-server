@@ -35,9 +35,9 @@ class PhotoDAL (@Autowired val env: Environment,
         println("Initial image size : ${catalogItemPhoto.photoBase64.size}")
         val mainDir = System.getProperty(SPRING_MAIN_DIRECTORY_KEY)
         val tempDirPath = "${mainDir}${TEMP_COMPRESSION_FOLDER}"
-        val file = File(tempDirPath)
-        if (!file.exists()) {
-            if (file.mkdir()) {
+        val dir = File(tempDirPath)
+        if (!dir.exists()) {
+            if (dir.mkdir()) {
                 println("Creating new directory: ${mainDir}${TEMP_COMPRESSION_FOLDER}")
             } else {
                 println("Failed to create directory: ${mainDir}${TEMP_COMPRESSION_FOLDER}")
