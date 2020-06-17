@@ -3,13 +3,16 @@ package com.roimolam.project.utils
 import org.slf4j.Logger
 import java.io.File
 import java.io.FileOutputStream
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
 import javax.imageio.IIOImage
 import javax.imageio.ImageIO
 import javax.imageio.ImageWriteParam
 
 fun compressBytes(bytes: ByteArray, logger: Logger, compressionFactor: Float, uncompressedFilePath: String, compressedFilePath: String): ByteArray {
     logger.debug("Initial file size : ${bytes.size}")
-    FileOutputStream(uncompressedFilePath).use { stream -> stream.write(bytes) }
+    Files.newOutputStream(Paths.get(uncompressedFilePath)).use { stream -> stream.write(bytes) }
     val input = File(uncompressedFilePath)
     val image = ImageIO.read(input)
     val output = File(compressedFilePath)
