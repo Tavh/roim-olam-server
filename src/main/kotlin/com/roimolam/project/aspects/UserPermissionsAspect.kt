@@ -8,6 +8,8 @@ import com.roimolam.project.logic.UsersLogicFacade
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.web.context.request.RequestContextHolder
@@ -17,11 +19,13 @@ import org.springframework.web.context.request.ServletRequestAttributes
 @Aspect
 @Component
 class UserPermissionsAspect(@Autowired val usersFacade: UsersLogicFacade) {
+    private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
     @Around("@annotation(userPermissionAnnotation)")
     @Throws(Throwable::class)
     fun userPermissionAdvice(joinPoint: ProceedingJoinPoint,
                             userPermissionAnnotation: UserPermission): Any? {
+        logger.info("Activating ${userPermissionAnnotation.userType} level function: ${joinPoint.signature.name}")
         if (userPermissionAnnotation.userType == UserType.ADMIN) {
             val request =
                     (RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes).request

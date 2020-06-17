@@ -26,14 +26,17 @@ class CatalogItemDAL (@PersistenceContext val entityManager:EntityManager,
 
     @Transactional(propagation = Propagation.REQUIRED)
     fun createCatalogItem(catalogItem: CatalogItemEntity): CatalogItemIDWrapper {
+        logger.debug("Creating catalog item: '${catalogItem.title}'")
         entityManager.persist(catalogItem)
-
-        return CatalogItemIDWrapper(catalogItem.id)
+        val newCatalogItem = CatalogItemIDWrapper(catalogItem.id)
+        logger.debug("Catalog item '${catalogItem.title}' received id: ${catalogItem.id}")
+        return newCatalogItem
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
     @Throws(ApplicationException::class)
     fun getCatalogItem(id: Long): CatalogItemEntity {
+        logger.debug("Retrieving catalog item with id: $id")
         return entityManager.find(CatalogItemEntity::class.java, id).apply {
             if (this == null) {
                 logger.warn("Couldn't find any catalog items")
@@ -45,6 +48,7 @@ class CatalogItemDAL (@PersistenceContext val entityManager:EntityManager,
     @Transactional(propagation = Propagation.REQUIRED)
     @Throws(ApplicationException::class)
     fun getAllCatalogItems(): List<CatalogItemEntity> {
+        logger.debug("Retrieving all catalog items")
         val query = entityManager.createQuery("FROM CatalogItemEntity")
 
         if (query.resultList.isEmpty()) {
