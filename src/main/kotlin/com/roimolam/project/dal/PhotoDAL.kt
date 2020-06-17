@@ -4,6 +4,8 @@ package com.roimolam.project.dal
 import com.roimolam.project.constants.*
 import com.roimolam.project.data.PhotoUploadIdWrapper
 import com.roimolam.project.data.entities.CatalogItemPhotoEntity
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.env.Environment
 import org.springframework.stereotype.Repository
@@ -24,6 +26,8 @@ import javax.persistence.PersistenceContext
 class PhotoDAL (@Autowired val env: Environment,
                 @PersistenceContext val entityManager: EntityManager) {
 
+    private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+
     @Transactional(propagation = Propagation.REQUIRED)
     fun saveCatalogItemPhoto(catalogItemPhoto: CatalogItemPhotoEntity): PhotoUploadIdWrapper {
         compressBase64(catalogItemPhoto)
@@ -32,15 +36,15 @@ class PhotoDAL (@Autowired val env: Environment,
     }
 
     private fun compressBase64(catalogItemPhoto: CatalogItemPhotoEntity) {
-        println("Initial image size : ${catalogItemPhoto.photoBase64.size}")
+        logger.debug("Initial image size : ${catalogItemPhoto.photoBase64.size}")
         val mainDir = System.getProperty(SPRING_MAIN_DIRECTORY_KEY)
         val tempDirPath = "${mainDir}${TEMP_COMPRESSION_FOLDER}"
         val dir = File(tempDirPath)
         if (!dir.exists()) {
             if (dir.mkdir()) {
-                println("Creating new directory: ${mainDir}${TEMP_COMPRESSION_FOLDER}")
+                logger.debug("Creating new directory: ${mainDir}${TEMP_COMPRESSION_FOLDER}")
             } else {
-                println("Failed to create directory: ${mainDir}${TEMP_COMPRESSION_FOLDER}")
+                logger.debug("Failed to create directory: ${mainDir}${TEMP_COMPRESSION_FOLDER}")
             }
         }
 
@@ -60,7 +64,7 @@ class PhotoDAL (@Autowired val env: Environment,
             val fileSizeGrade = catalogItemPhoto.photoBase64.size / KILOBYTES_IN_MEGABYTE.toFloat()
             val finalFileSizeGrade = Math.max(1f, fileSizeGrade)
             val compressionFactor = MAX_COMPRESSION_FACTOR - (finalFileSizeGrade * SINGLE_COMPRESSION_GRADE_VALUE)
-            println("Compression factor : $compressionFactor")
+            logger.debug("Compression factor : $compressionFactor")
             param.compressionQuality = compressionFactor
         }
         writer.write(null, IIOImage(image, null, null), param)
@@ -70,7 +74,7 @@ class PhotoDAL (@Autowired val env: Environment,
         catalogItemPhoto.photoBase64 = output.readBytes()
         input.delete()
         output.delete()
-        println("Compressed image size : ${catalogItemPhoto.photoBase64.size}")
+        logger.debug("Compressed image size : ${catalogItemPhoto.photoBase64.size}")
     }
 
     fun getCatalogItemPhoto(id: String): ByteArray {

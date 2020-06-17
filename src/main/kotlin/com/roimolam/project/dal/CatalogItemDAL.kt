@@ -8,6 +8,8 @@ import com.roimolam.project.data.CatalogItemsWrapper
 import com.roimolam.project.enums.ErrorType
 import com.roimolam.project.enums.ItemType
 import com.roimolam.project.exceptions.ApplicationException
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Propagation
@@ -19,6 +21,8 @@ import javax.persistence.PersistenceContext
 @Repository
 class CatalogItemDAL (@PersistenceContext val entityManager:EntityManager,
                       @Autowired val photoDAL: PhotoDAL) {
+
+    private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
     @Transactional(propagation = Propagation.REQUIRED)
     fun createCatalogItem(catalogItem: CatalogItemEntity): CatalogItemIDWrapper {
@@ -32,6 +36,7 @@ class CatalogItemDAL (@PersistenceContext val entityManager:EntityManager,
     fun getCatalogItem(id: Long): CatalogItemEntity {
         return entityManager.find(CatalogItemEntity::class.java, id).apply {
             if (this == null) {
+                logger.warn("Couldn't find any catalog items")
                 throw ApplicationException(ErrorType.NO_DATA_FOUND, "Couldn't find catalog item with id: $id")
             }
         }
@@ -43,6 +48,7 @@ class CatalogItemDAL (@PersistenceContext val entityManager:EntityManager,
         val query = entityManager.createQuery("FROM CatalogItemEntity")
 
         if (query.resultList.isEmpty()) {
+            logger.warn("Couldn't find any catalog items")
             throw ApplicationException(ErrorType.NO_DATA_FOUND, "Couldn't find any catalog items")
         }
 
@@ -52,6 +58,7 @@ class CatalogItemDAL (@PersistenceContext val entityManager:EntityManager,
     @Transactional(propagation = Propagation.REQUIRED)
     @Throws(ApplicationException::class)
     fun getCatalogItemsByType(itemType: ItemType, page: Int?): CatalogItemsWrapper {
+        logger.debug("Retrieving catalog items of type $itemType")
         val query = entityManager.createQuery("FROM CatalogItemEntity c WHERE c.itemType=:itemType")
                                  .setParameter("itemType", itemType)
 
@@ -63,13 +70,14 @@ class CatalogItemDAL (@PersistenceContext val entityManager:EntityManager,
         val catalogItems = query.resultList as List<CatalogItemEntity>
 
         if (catalogItems.isEmpty()) {
+            logger.warn("Couldn't find any catalog items")
             throw ApplicationException(ErrorType.NO_DATA_FOUND, "Couldn't find any catalog items")
         }
 
         val catalogItemsCountQuery = entityManager.createQuery("SELECT count(*) FROM CatalogItemEntity c WHERE c.itemType=:itemType").setParameter("itemType", itemType)
         val totalPages = catalogItemsCountQuery.getSingleResult() as Long / CATALOG_ITEMS_PER_PAGE.toDouble()
         val totalPagesRoundedUp = Math.ceil(totalPages).toLong()
-        println("totalPages is: ${totalPages}, rounding up to: ${totalPagesRoundedUp}")
+        logger.debug("totalPages is: ${totalPages}, rounding up to: ${totalPagesRoundedUp}")
 
         return CatalogItemsWrapper(totalPagesRoundedUp, catalogItems)
     }
@@ -90,7 +98,7 @@ class CatalogItemDAL (@PersistenceContext val entityManager:EntityManager,
 
     @Transactional(propagation = Propagation.REQUIRED)
     fun deleteCatalogItem(@PathVariable id: Long): CatalogItemDeleteStatusWrapper {
-        println(id)
+        logger.debug("Deleting a catalog item with id: $id")
         entityManager.find(CatalogItemEntity::class.java, id).apply {
             if (this != null) {
                 entityManager.remove(this)
