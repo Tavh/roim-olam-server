@@ -28,6 +28,12 @@ class PhotoDAL (@Autowired val env: Environment,
 
     @Transactional(propagation = Propagation.REQUIRED)
     fun saveCatalogItemPhoto(catalogItemPhoto: CatalogItemPhotoEntity): PhotoUploadIdWrapper {
+//        handlePhotoCompression(catalogItemPhoto) File system IO causes an exception on AWS
+        entityManager.persist(catalogItemPhoto)
+        return PhotoUploadIdWrapper(catalogItemPhoto.id)
+    }
+
+    private fun handlePhotoCompression(catalogItemPhoto: CatalogItemPhotoEntity) {
         val mainDir = System.getProperty(SPRING_MAIN_DIRECTORY_KEY)
         val tempDirPath = "${mainDir}$TEMP_COMPRESSION_FOLDER"
         val dir = File(tempDirPath)
@@ -42,13 +48,11 @@ class PhotoDAL (@Autowired val env: Environment,
         val compressedFilePath = "$mainDir$COMPRESSED_PHOTO_PATH"
 
         catalogItemPhoto.apply {
-            val fileSizeGrade = this.photoBase64.size / PhotoDAL.KILOBYTES_IN_MEGABYTE.toFloat()
+            val fileSizeGrade = this.photoBase64.size / KILOBYTES_IN_MEGABYTE.toFloat()
             val finalFileSizeGrade = Math.max(1f, fileSizeGrade)
-            val compressionFactor = PhotoDAL.MAX_COMPRESSION_FACTOR - (finalFileSizeGrade * PhotoDAL.SINGLE_COMPRESSION_GRADE_VALUE)
+            val compressionFactor = MAX_COMPRESSION_FACTOR - (finalFileSizeGrade * SINGLE_COMPRESSION_GRADE_VALUE)
             this.photoBase64 = compressBytes(this.photoBase64, logger, compressionFactor, uncompressedFilePath, compressedFilePath)
         }
-        entityManager.persist(catalogItemPhoto)
-        return PhotoUploadIdWrapper(catalogItemPhoto.id)
     }
 
     fun getCatalogItemPhoto(id: String): ByteArray {
